@@ -4,6 +4,11 @@
 #include "gerador.h"
 #include "buscador.h"
 
+struct Arvore{
+    int i;
+};
+
+
 int ocorrencias(int *saida, int tam){
     int sum = 0;
     for (int i = 0; i < tam; i++) sum += saida[i];
@@ -20,6 +25,14 @@ int *frequencias(char *texto, int tamTexto){
         i++;
     }
     return frequencia;    
+}
+
+Arvore criar_arvore(int *v){
+    // ...
+}
+
+int *get_bits(char texto){
+    // ...
 }
 
 #endif
