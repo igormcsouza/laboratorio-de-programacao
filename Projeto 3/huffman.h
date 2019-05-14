@@ -14,8 +14,10 @@ int *frequencias(char *texto, int tamTexto){
     int i = 0;
     int *frequencia = new int[26];
     while (i < 26){
-        char aux[1] = {dicionario(i)};
+        char *aux = new char[1];
+        aux[0] = dicionario(i);
         frequencia[i] = ocorrencias(kmp(texto, aux, tamTexto, 1), tamTexto);
+        i++;
     }
     return frequencia;    
 }
