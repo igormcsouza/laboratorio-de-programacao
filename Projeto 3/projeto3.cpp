@@ -18,7 +18,7 @@ int main(){
 	cout << endl;
 	
 	Arvore arvore = criar_arvore(freq);
-	
+	// DEU CERTO!
 
 	return 0;
 
