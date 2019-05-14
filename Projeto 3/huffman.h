@@ -5,7 +5,10 @@
 #include "buscador.h"
 
 struct Arvore{
-    int i;
+    int byte;
+    char character;
+    Arvore *right;
+    Arvore *left;
 };
 
 
@@ -27,8 +30,20 @@ int *frequencias(char *texto, int tamTexto){
     return frequencia;    
 }
 
+void ocupar_arvore(Arvore *arvore, char character, int byte, int direcao){
+   Arvore *S;
+   S = (Arvore*)malloc(sizeof(Arvore));
+   S->byte = byte;
+   S->character = character;
+   if (direcao) arvore->left = S;
+   else arvore->right = S;
+}
+
 Arvore criar_arvore(int *v){
-    // ...
+    Arvore *arvore = (Arvore*)malloc(sizeof(Arvore));
+    for(int i = 0; i < 26; i++){
+        
+    }
 }
 
 int *get_bits(char texto){
