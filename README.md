@@ -6,4 +6,4 @@ Trabalhos desenvolvidos na cadeira de Laboratório de Programação ck0215.
 
 ## Projeto 2
 
-# Projeto 3
+## Projeto 3
