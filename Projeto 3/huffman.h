@@ -57,7 +57,7 @@ Arvore *criar_arvore(int *v){
             List[i] = *arvore;
             size++;
         }
-        
+
     for(int i = 0; i < size/2; i++){
         List[i].left = &List[2*i + 1];
         List[i].right = &List[2*i + 2];
