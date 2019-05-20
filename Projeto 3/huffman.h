@@ -43,7 +43,7 @@ void criar_arvore(int *v, Folha *Arvore){
 
 /* Recebe: Array Folha
 * Cria, apartir das folhas de Huffman a arvore de Huffman
-* Retorna: Array Folha
+* Retorna: Nada, mas modifica via ponteiro a arvore
 */
 void arvore_huffman(Folha *huffman);
 
