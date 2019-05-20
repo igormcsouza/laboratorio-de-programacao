@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include "huffman.h"
+#include "heap.h"
 
 using namespace std;
 
@@ -18,13 +19,14 @@ int main(){
     for(int i = 0; i < variedade; i++) cout << *(freq + i) << " ";
 	cout << endl << endl;
 
+	int size = 0;
+	for(int i = 0; i < variedade; i++)  if (*(freq + i) > 0) size++;
+
 	cout << "Tree..." << endl;
-	Arvore *arvore = criar_arvore(freq);
-	while(true){
-		cout << arvore->character;
-		if(arvore->left != NULL) arvore = arvore->left;
-		else break;
-	}
+
+	Folha *List = new Folha[(2*size) - 1];
+	criar_arvore(freq, List);
+	arvore_huffman(List);
 
 	return 0;
 
