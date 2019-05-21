@@ -25,9 +25,10 @@ int main(){
 	cout << "Tree..." << endl;
 
 	Folha *List = new Folha[(2*size) - 1];
-	criar_arvore(freq, List);
-	arvore_huffman(List);
+	int last = criar_arvore(freq, List);
+	arvore_huffman(List, last);
+
+	for(int i = 0; i < (2*size) - 1; i++)  cout << List[i].character << ", " << List[i].freq << "|";
 
 	return 0;
-
 }
