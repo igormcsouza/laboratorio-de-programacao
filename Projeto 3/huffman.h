@@ -13,6 +13,10 @@ struct Folha{
     int left = -1; // Indice do Filho Esquerdo
 };
 
+void print_Folha(Folha f){
+    std::cout << f.character << ", " << f.freq << "|";
+}
+
 int ocorrencias(int *saida, int tam){
     int sum = 0;
     for (int i = 0; i < tam; i++) sum += saida[i];
@@ -48,35 +52,36 @@ int criar_arvore(int *v, Folha *Arvore){
 * Retorna: Nada, mas modifica via ponteiro a arvore
 */
 void arvore_huffman(Folha *huffman, int last){
+    // Cria um heap, cada nó é um elemento da arvore de huffman
     No *heap = new No[last];
     for(int i = 0; i < last; i++){
         heap[i].weight = huffman[i].freq;
         heap[i].idx = i;
     }
 
-    heapfy(heap, 0);
-    No *min = new No[2];
-    int count = last;
+    // Organiza a arvore para ser um heap
+    heapfy(heap, 0, last);
+    No *min = new No[2]; // Vetor-extração dos minimos
+    int count = last; // Contar para acompanhar o tamanho da heap
 
+    // ?? BUGS ?? Huffman não cria os nós artificiais!!
     while(count > 1){
+        // Extrai os 2 primeiros (A função extração ajeita a heap tbm)
         min[0] = remove_min(heap, count); --count;
         min[1] = remove_min(heap, count); --count;
-
-        last++;
-
-        huffman[last].freq = min[0].weight + min[1].weight;
-        if (min[0].weight > min[1].weight){ huffman[last].left = min[0].idx; 
-                                            huffman[last].right = min[1].idx;}
-        else{ huffman[last].left = min[0].idx; 
-              huffman[last].right = min[1].idx;}
         
-        ++count;
+        last++; // Incremento a arvore de huffman para receber o no artificial
+        
+        // Cria o novo no artificial na arvore de huffman
+        huffman[last].freq = min[0].weight + min[1].weight;
+        huffman[last].left = min[0].idx; huffman[last].right = min[1].idx;
+        print_Folha(huffman[last]);
+        
+        ++count; // Coloca esse nó artificial na heap.
         heap[count].idx = last;
         heap[count].weight = huffman[last].freq;
-
-        heapfy(heap, 0);
+        heapfy(heap, 0, count); // Ajeita a heap
     }
-
 }
 
 #endif

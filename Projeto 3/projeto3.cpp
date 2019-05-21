@@ -23,12 +23,13 @@ int main(){
 	for(int i = 0; i < variedade; i++)  if (*(freq + i) > 0) size++;
 
 	cout << "Tree..." << endl;
+	int n = (2*size) - 1;
 
-	Folha *List = new Folha[(2*size) - 1];
+	Folha *List = new Folha[n];
 	int last = criar_arvore(freq, List);
 	arvore_huffman(List, last);
 
-	for(int i = 0; i < (2*size) - 1; i++)  cout << List[i].character << ", " << List[i].freq << "|";
+	//for(int i = 0; i < n; i++)  print_Folha(List[i]);
 
 	return 0;
 }
