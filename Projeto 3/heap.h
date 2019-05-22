@@ -35,12 +35,12 @@ void heapfy(No *heap, int i, int last){
 * Remove o mínimo dos elementos da Heap, ou seja, a raiz.
 * Retorna: No
 */
-No remove_min(No *heap, int last){
-    No *min = heap;
-    heap[0].idx = -1; heap[0].weight = -1;
-    swap(heap[0], heap[last]);
+No remove_min(No *heap, int &last){
+    No min = heap[0];
+    heap[0] = heap[last];
+    --last;
     heapfy(heap, 0, last);
-    return *min;
+    return min;
 }
 
 #endif

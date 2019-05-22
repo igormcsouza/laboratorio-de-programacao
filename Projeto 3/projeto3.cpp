@@ -29,7 +29,7 @@ int main(){
 	int last = criar_arvore(freq, List);
 	arvore_huffman(List, last);
 
-	//for(int i = 0; i < n; i++)  print_Folha(List[i]);
+	for(int i = 0; i < n; i++)  print_Folha(List[i]);
 
 	return 0;
 }
