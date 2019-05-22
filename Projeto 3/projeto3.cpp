@@ -28,12 +28,12 @@ int main(){
 	Folha *List = new Folha[n];
 	int last = criar_arvore(freq, List);
 	for(int i = 0; i < n; i++)  print_Folha(List[i]);
-	cout << endl;
+	cout << endl << endl;
 
 	cout << "Huffman Tree..." << endl;
 	arvore_huffman(List, last);
 	for(int i = 0; i < n; i++) print_Folha(List[i]);
-	cout << endl;
+	cout << endl << endl;
 
 	return 0;
 }
