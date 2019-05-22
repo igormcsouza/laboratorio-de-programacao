@@ -64,18 +64,16 @@ void arvore_huffman(Folha *huffman, int last){
     No *min = new No[2]; // Vetor-extração dos minimos
     int count = last; // Contar para acompanhar o tamanho da heap
 
-    // ?? BUGS ?? Huffman não cria os nós artificiais!!
+    // Still a bug! The final tree isn't as expected
     while(count > 1){
         // Extrai os 2 primeiros (A função extração ajeita a heap tbm)
         min[0] = remove_min(heap, count);
         min[1] = remove_min(heap, count);
 
-        last++; // Incremento a arvore de huffman para receber o no artificial
-
         // Cria o novo no artificial na arvore de huffman
         huffman[last].freq = min[0].weight + min[1].weight;
         huffman[last].left = min[0].idx; huffman[last].right = min[1].idx;
-        print_Folha(huffman[last]);
+        last++; // Incremento a arvore de huffman para receber o no artificial
 
         ++count; // Coloca esse nó artificial na heap.
         heap[count].idx = last;

@@ -9,7 +9,7 @@ using namespace std;
 
 int main(){
 
-	cout << "Finding Frequency" << endl;
+	cout << "Finding Frequency..." << endl;
     int tamTexto = 10, variedade = 26;
 	char *texto = gerador_aleatorio(tamTexto, variedade);
 	for(int i = 0; i < tamTexto; i++) cout << *(texto + i) << " "; 
@@ -27,9 +27,13 @@ int main(){
 
 	Folha *List = new Folha[n];
 	int last = criar_arvore(freq, List);
-	arvore_huffman(List, last);
-
 	for(int i = 0; i < n; i++)  print_Folha(List[i]);
+	cout << endl;
+
+	cout << "Huffman Tree..." << endl;
+	arvore_huffman(List, last);
+	for(int i = 0; i < n; i++) print_Folha(List[i]);
+	cout << endl;
 
 	return 0;
 }

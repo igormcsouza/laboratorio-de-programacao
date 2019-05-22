@@ -2,18 +2,9 @@
 #define HEAP_H
 
 struct No{
-    int weight;
-    int idx;
+    int weight = -1;
+    int idx = -1;
 };
-
-/* Recebe: 2 nós de uma heap
-* Troca de posição os dois nós dados
-* Retorna: Nada
-*/
-void swap(No i, No j){
-	No aux;
-	aux = i; i = j; j = aux;
-}
 
 /* Recebe: Heap desorganizada
 * Constroi a heap, de forma que o mínimo fica na raiz e os filhos
@@ -23,17 +14,26 @@ void swap(No i, No j){
 * Retorna: nada, pois trata-se de edição em ponteiros
 */
 void heapfy(No *heap, int i, int last){
-    while(i < (2*last)+1){
-        if(heap[i].weight > heap[(2*i) + 1].weight) swap(heap[i], heap[(2*i) + 1]);
-        if(heap[i].weight > heap[(2*i) + 2].weight) swap(heap[i], heap[(2*i) + 2]);
+    No aux;
+    while(i < last/2){
+        if(heap[i].weight > heap[(2*i) + 1].weight){
+            aux.weight = heap[i].weight; aux.idx = heap[i].idx;
+            heap[i].weight = heap[(2*i) + 1].weight; heap[i].idx = heap[(2*i) + 1].idx;  
+            heap[(2*i) + 1].weight = aux.weight; heap[(2*i) + 1].idx = aux.idx;
+        }
+        if(heap[i].weight > heap[(2*i) + 2].weight){
+            aux.weight = heap[i].weight; aux.idx = heap[i].idx;
+            heap[i].weight = heap[(2*i) + 2].weight; heap[i].idx = heap[(2*i) + 2].idx;  
+            heap[(2*i) + 2].weight = aux.weight; heap[(2*i) + 2].idx = aux.idx;
+        }
         heapfy(heap, (2*i) + 1, last);
         i = (2*i) + 2;
     }
 }
 
 /* Recebe: Array Heap
-* Remove o mínimo dos elementos da Heap, ou seja, a raiz.
-* Retorna: No
+* Remove o mínimo dos elementos da Heap, ou seja, a raiz. Decrementa o tamanho da heap.
+* Retorna: No mínimo
 */
 No remove_min(No *heap, int &last){
     No min = heap[0];
