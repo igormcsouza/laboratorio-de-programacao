@@ -6,13 +6,14 @@
 using namespace std;
 
 int main(){
-	int tam = 10;
+	int tam = 1000;
+	int variedade = 1000;
 	bool keep = true;
 
 	while(keep){
 		system("clear");
 
-		int *v = vetor_aleatorio(tam);
+		int *v = vetor_aleatorio(tam, variedade);
 
 		cout << "Before: ";
 		for(int i=0; i<tam; i++){ cout << *(v + i) << " "; }
@@ -42,8 +43,7 @@ int main(){
 		cout << "s" << endl;
 
 		cout << "After: ";
-		for(int i=0; i<tam; i++)
-			cout << v[i] << " ";
+		for(int i=0; i<tam; i++) cout << v[i] << " ";
 		cout << endl;
 
 		cout << "Continuar? 1/0: ";

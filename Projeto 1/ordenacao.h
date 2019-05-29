@@ -98,12 +98,12 @@ void bfprt(int *inicio, int *i, int *fim){
 
 // Recebe um valor e cria um vetor de aleatórios entre 0 e o 
 // valor passado como parametro
-int *vetor_aleatorio(int tam){
+int *vetor_aleatorio(int tam, int variedade){
 	int *vetor = new int[tam];
   	srand (time(NULL)); /* initialize random seed: */
 
 	for(int i = 0; i < tam; i++){
-		vetor[i] = rand() % 101;
+		vetor[i] = rand() % variedade;
 	}
 
 	return vetor;
@@ -128,8 +128,7 @@ void quickSort_via_indice(int *v, int inicio, int fim){
 
 		int i = inicio;
 		for (int j = i + 1; j < fim + 1; j++)
-			if (v[j] < v[p])
-			{
+			if (v[j] < v[p]){
 				i++;
 				troca(&v[i], &v[j]);
 			}
@@ -137,7 +136,7 @@ void quickSort_via_indice(int *v, int inicio, int fim){
 		
 		// Inicio do Quicksort 
 		int pivo = i;
-		quickSort_via_indice(v, 0, pivo - 1);
+		quickSort_via_indice(v, inicio, pivo - 1);
 		quickSort_via_indice(v, pivo + 1, fim);
 	}
 }
