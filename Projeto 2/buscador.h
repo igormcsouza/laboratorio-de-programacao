@@ -2,75 +2,67 @@
 #define BUSCADOR_H
 
 // Busca por sequencia, intuitivo
-/**/
-int *busca_sequencia(char *texto, char *padrao, int tamTexto, int tamPadrao){
-	int *buscador = new int[tamTexto];
-	bool find = false;
-	for(int i = 0; i < tamTexto; i++){
-		for(int j = 0; j < tamPadrao; j++){
-			if(texto[i+j] != padrao[j]){
-				find = false;
-				break;
-			} else { find = true; }
+/*Ao encontrar a sequencia no texto igual ao padrão guarda a posição que isso aconteceu, 
+* para dizer que ali tem uma ocorrencia.
+*/
+void *busca_sequencia(const char *texto, const char *padrao, int *ocorrencia){
+    bool achou = false;
+	for(int i = 0; texto[i] != '\0'; i++){
+        achou = true;
+		for(int j = 0; padrao[j] != '\0'; j++){
+			if(texto[i+j] != padrao[j]){ achou = false; break; }
 		}
-
-		if(find){ buscador[i] = 1; }
-		else { buscador[i] = 0; }
+		if(achou){ *ocorrencia = i; ocorrencia++; }
 	}
-	return buscador;
+    *ocorrencia = -1;
 }
 
-// Busca por sequencia, usando KMP
+// Calculo do PI para ser usado no KMP
 /**/
+int *calcular_pi(const char *padrao){
+    const char *aux = padrao;
+    int m = 0;
+    while (*aux != '\0'){ m++; aux++; }
 
-int *calcular_pi(char *P, int m){
     int *pi = new int[m];
     int k, l;
 
     pi[0] = 0;
-    
     for (int i = 1; i < m; i++){
         k = i - 1;
         while (true){
             l = pi[k];
             if (l == 0){
-                if (P[0] == P[i]){
-                    pi[i] = 1;
-                    break;
-                } else {
-                    pi[i] = 0;
-                    break;
-                }
-            }else{
-                if (P[i] == P[l]){
-                    pi[i] = l + 1;
-                    break;
-                }else k = l - 1;
-            }
-            
+                if (padrao[0] == padrao[i]){ pi[i] = 1; break; } 
+                else { pi[i] = 0; break; }
+            } else {
+                if (padrao[i] == padrao[l]){ pi[i] = l + 1; break; } 
+                else k = l - 1;
+            }    
         }
-        
     }
+
     return pi;
 }
 
-int *kmp(char *T, char *P, int n, int m){
-    int *pi = calcular_pi(P, m);
+// Busca por sequencia, usando KMP
+/*Faz alguma coisa
+* Recebe: T (Texto), P (Padrão), ocorrencias(Vetor com a posição em que ocorre um padrão)
+*/
+int *kmp(const char *T, const char *P, int *ocorrencias){
+    int *pi = calcular_pi(P);
 
-    int *list = new int[n];
-    for (int i = 0; i < n; i++)
-        list[i] = 0;
-    
     int i = 0, j = 0;
 
-    while (i < n) {
+    while (T[i] != '\0') {
         if (T[i] != P[j]) {
             if (j == 0) {
                 ++i;
             } else j = pi[j - 1];
         } else {
-            if (j == m - 1) {
-                list[i - j] = 1;
+            if (P[j+1] != '\0') {
+                *ocorrencias = i - j;
+                ++ocorrencias;
                 j = pi[j];
                 ++i;
             } else {
@@ -78,7 +70,7 @@ int *kmp(char *T, char *P, int n, int m){
             }
         }
     }
-    return list;
+    *ocorrencias = -1;
 }
 
 #endif
