@@ -5,11 +5,11 @@
 /*Ao encontrar a sequencia no texto igual ao padrão guarda a posição que isso aconteceu, 
 * para dizer que ali tem uma ocorrencia.
 */
-void *busca_sequencia(const char *texto, const char *padrao, int *ocorrencia){
-    bool achou = false;
+void busca_sequencia(const char *texto, const char *padrao, int *ocorrencia){
+    bool achou = true;
 	for(int i = 0; texto[i] != '\0'; i++){
-        achou = true;
 		for(int j = 0; padrao[j] != '\0'; j++){
+            std::cout << texto[i+j] << ", " << padrao[j] << std::endl;
 			if(texto[i+j] != padrao[j]){ achou = false; break; }
 		}
 		if(achou){ *ocorrencia = i; ocorrencia++; }
@@ -49,7 +49,7 @@ int *calcular_pi(const char *padrao){
 /*Faz alguma coisa
 * Recebe: T (Texto), P (Padrão), ocorrencias(Vetor com a posição em que ocorre um padrão)
 */
-void *kmp(const char *T, const char *P, int *ocorrencias){
+void kmp(const char *T, const char *P, int *ocorrencias){
     int *pi = calcular_pi(P);
 
     int i = 0, j = 0;

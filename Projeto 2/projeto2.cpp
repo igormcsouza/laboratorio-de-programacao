@@ -13,7 +13,7 @@ using namespace std;
 // Compara o KMP e o força bruta
 /* Recebe como parametro o texto, o padrão e as ocorrencias
 */
-bool benchmark(const char *texto, const char *padrao, int *bruta, int *kmP){
+string benchmark(const char *texto, const char *padrao, int *bruta, int *kmP){
 	clock_t start = clock();
 	
 	busca_sequencia(texto, padrao, bruta);
@@ -25,38 +25,41 @@ bool benchmark(const char *texto, const char *padrao, int *bruta, int *kmP){
 
 	int i = 0;
 	while (*(bruta + i) == *(kmP + i)){
-		if(*(bruta + i) == -1 && *(kmP + i) == -1) return true;
+		cout << *(bruta + i) << ", " << *(kmP + i) << endl;
+		if(*(bruta + i) == -1 && *(kmP + i) == -1) return "Funcionou! :D";
 		++i;
 	}
 
-	return false;
+	return "Não funcionou!! :'(";
 }
 
 // Tem que ver isso dai...
 int main(){
 	srand (time(NULL));
-	int opcao = 0, padraoEscolhido, tamTexto = 0, tamPadrao = 0, variedade = 0;
+	int opcao = 5, padraoEscolhido, tamTexto = 10, tamPadrao = 2, variedade = 5;
+	char keep = 'N';
+
 	const char *texto, *padrao;
 	int *bruta, *kmP;
 
-	cout << "Busca por padroes em textos!\n";
+	// Hunting Bugs
 
-	while (opcao != 3){
-		opcao = 0;
-		cout << "\nQual instancia deseja utilizar:\n1 - Instanca Aleatoria\n2 - Instancia Real\n3 - Sair\n";
+	bruta = new int[tamTexto + 1];
+	texto = gerador_aleatorio(tamTexto, variedade);
+	padrao = gerador_aleatorio(tamPadrao, variedade);
+	busca_sequencia(texto, padrao, bruta);
+	for (; *bruta != -1; bruta++) cout << *bruta << endl;
+
+	// end
+
+	while (keep == 'Y'){
+		system("clear");
+		cout << "### Encontrando Padroes em Textos... ###" << endl;
+		cout << "Escolha uma opção: " << endl;
+		cout << "1 - Aleatorio, 2 - Pior caso 1, 3 - Pior caso 2, 4 - Texto: ";
 		cin >> opcao;
-
-		switch (opcao)
-		{
-		case 1:
-			cout << "\nInserir tamanho do texto: "; cin >> tamTexto;
-			if(tamTexto < 1) {cout << "Tamanho do texto deve ser maior que 1"; break;}
-			cout << "\nInserir tamanho do padrao : "; cin >> tamPadrao;
-			if(tamPadrao > tamTexto){cout << "Tamanho do Padrão deve ser menor que o tamanho do texto"; break;}
-			cout << "\nInserir grau de variedade (1 a 26): "; cin >> variedade;
-			if(variedade < 1 || variedade > 26) {cout << "Variedade deve estar no intervalo requerido"; break;}
-	
-
+		
+		if (opcao == 1){
 			bruta = new int[tamTexto + 1];
 			kmP = new int[tamTexto + 1];
 
@@ -64,45 +67,55 @@ int main(){
 			texto = gerador_aleatorio(tamTexto, variedade);
 			padrao = gerador_aleatorio(tamPadrao, variedade);
 
-			if(!benchmark(texto, padrao, bruta, kmP))
-				cout << "Falha na ordenacao!\n";
-			
+			cout << benchmark(texto, padrao, bruta, kmP) << endl;
 
-			cout << "\nTestes com instancias de pior caso 1\n";
-			texto = gerador_pior_caso_1(tamTexto);
-			padrao = gerador_pior_caso_1(tamPadrao);
-
-			if(!benchmark(texto, padrao, bruta, kmP))
-				cout << "Falha na ordenacao!\n";
-
-
-			cout << "\nTestes com instancias de pior caso 2\n";
-			texto = gerador_pior_caso_2(tamTexto);
-			padrao = gerador_pior_caso_2(tamPadrao);
-
-			if(!benchmark(texto, padrao, bruta, kmP))
-				cout << "Falha na ordenacao!\n";
-			
 			delete[] texto;
 			delete[] padrao;
 			delete[] bruta;
 			delete[] kmP;
-			break;
-		case 2:
-			cout << "\nDigite um numero no intervalo de 0 a 35129 para selecionar a palavra: "; cin >> padraoEscolhido;
-			if(padraoEscolhido < 0 || padraoEscolhido > 35129) {cout << "O numero escolhido deve estar entre 0 e 35129"; break;}
+		}
+		if (opcao == 2){
+			cout << "\nTestes com instancias de pior caso 1\n";
+			texto = gerador_pior_caso_1(tamTexto);
+			padrao = gerador_pior_caso_1(tamPadrao);
+
+			cout << benchmark(texto, padrao, bruta, kmP) << endl;
+
+			delete[] texto;
+			delete[] padrao;
+			delete[] bruta;
+			delete[] kmP;
+		}
+		if (opcao == 3){
+			cout << "\nTestes com instancias de pior caso 2\n";
+			texto = gerador_pior_caso_2(tamTexto);
+			padrao = gerador_pior_caso_2(tamPadrao);
+
+			cout << benchmark(texto, padrao, bruta, kmP) << endl;
+
+			delete[] texto;
+			delete[] padrao;
+			delete[] bruta;
+			delete[] kmP;
+		}
+		if (opcao == 4){
+			cout << "\nDigite um numero no intervalo de 0 a 35129 para selecionar a palavra: "; 
+			cin >> padraoEscolhido;
+
+			while (padraoEscolhido < 0 || padraoEscolhido > 35129) {
+				cout << "O numero escolhido deve estar entre 0 e 35129";
+				cin >> padraoEscolhido;
+			}
 
 			bruta = new int[10000000];
 			kmP = new int[10000000];
 
-			if(!benchmark(Texto_Livros, Padroes_Palavras[padraoEscolhido], bruta, kmP))
-				cout << "Falha na ordenacao!\n";
+			cout << benchmark(texto, padrao, bruta, kmP) << endl;
 
 			delete[] bruta;
 			delete[] kmP;
-			break;
-		case 3:
-			break;
 		}
+
+		cout << "Continue? (Y/n): "; cin >> keep;
 	}
 }
