@@ -98,8 +98,6 @@ int main(){
 			if(!benchmark(Texto_Livros, Padroes_Palavras[padraoEscolhido], bruta, kmP))
 				cout << "Falha na ordenacao!\n";
 
-			delete[] texto;
-			delete[] padrao;
 			delete[] bruta;
 			delete[] kmP;
 			break;

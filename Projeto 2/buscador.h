@@ -49,7 +49,7 @@ int *calcular_pi(const char *padrao){
 /*Faz alguma coisa
 * Recebe: T (Texto), P (Padrão), ocorrencias(Vetor com a posição em que ocorre um padrão)
 */
-int *kmp(const char *T, const char *P, int *ocorrencias){
+void *kmp(const char *T, const char *P, int *ocorrencias){
     int *pi = calcular_pi(P);
 
     int i = 0, j = 0;

@@ -11,11 +11,11 @@ int main(){
 
 	cout << "Finding Frequency..." << endl;
     int tamTexto = 10, variedade = 26;
-	char *texto = gerador_aleatorio(tamTexto, variedade);
+	const char *texto = gerador_aleatorio(tamTexto, variedade);
 	for(int i = 0; i < tamTexto; i++) cout << *(texto + i) << " "; 
 	cout << endl;
 
-    int *freq = frequencias(texto, tamTexto);
+    int *freq = frequencias(texto, variedade, tamTexto);
     for(int i = 0; i < variedade; i++) cout << *(freq + i) << " ";
 	cout << endl << endl;
 
@@ -37,3 +37,5 @@ int main(){
 
 	return 0;
 }
+
+// ofstream::write()

@@ -17,21 +17,27 @@ void print_Folha(Folha f){
     std::cout << f.character << ", " << f.freq << "|";
 }
 
-int ocorrencias(int *saida, int tam){
+int ocorrencias(int *occurs){
     int sum = 0;
-    for (int i = 0; i < tam; i++) sum += saida[i];
+    while (*(occurs + sum) != -1) ++sum;
     return sum;
 }
 
-int *frequencias(char *texto, int tamTexto){
+int *frequencias(const char *texto, int variedade, int tamTexto){
+    int *frequencia = new int[variedade];
+    int *occurs = new int[tamTexto];
+    char *aux = new char[2]; aux[1] = '\0';
+
     int i = 0;
-    int *frequencia = new int[26];
-    while (i < 26){
-        char *aux = new char[1];
+    while (i < variedade){
         aux[0] = dicionario(i);
-        frequencia[i] = ocorrencias(kmp(texto, aux, tamTexto, 1), tamTexto);
+        kmp(texto, aux, occurs);
+        frequencia[i] = ocorrencias(occurs);
+        for (int j = 0; j < tamTexto; j++) *(occurs + j) = -1;
         i++;
     }
+
+    delete occurs;
     return frequencia;    
 }
 
