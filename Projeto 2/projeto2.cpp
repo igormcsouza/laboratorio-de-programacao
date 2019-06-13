@@ -8,6 +8,8 @@
 #include "buscador.h"
 #include "instancias_Reais_Trabalho_2.hpp"
 
+#define BIG 10000000
+
 using namespace std;
 
 // Faz a comparação de resultados
@@ -41,7 +43,7 @@ string benchmark(const char *texto, const char *padrao, int *bruta, int *kmP){
 // Tem que ver isso dai...
 int main(){
 	srand (time(NULL));
-	int opcao = 5, padraoEscolhido, tamTexto = 2000, tamPadrao = 20, variedade = 26;
+	int opcao = 5, escolha, tamTexto = 2000, tamPadrao = 20, variedade = 26;
 	char keep = 'Y';
 
 	const char *texto, *padrao;
@@ -62,10 +64,11 @@ int main(){
 		cout << "Escolha uma opção: " << endl;
 		cout << "1 - Aleatorio, 2 - Pior caso 1, 3 - Pior caso 2, 4 - Texto: ";
 		cin >> opcao;
+
+		bruta = new int[tamTexto + 1];
+		kmP = new int[tamTexto + 1];
 		
 		if (opcao == 1){
-			bruta = new int[tamTexto + 1];
-			kmP = new int[tamTexto + 1];
 
 			cout << "\nTestes com instancias aleatorias\n";
 			texto = gerador_aleatorio(tamTexto, variedade);
@@ -104,17 +107,17 @@ int main(){
 		}
 		if (opcao == 4){
 			cout << "\nDigite um numero no intervalo de 0 a 35129 para selecionar a palavra: "; 
-			cin >> padraoEscolhido;
+			cin >> escolha;
 
-			while (padraoEscolhido < 0 || padraoEscolhido > 35129) {
+			while (escolha < 0 || escolha > 35129) {
 				cout << "O numero escolhido deve estar entre 0 e 35129";
-				cin >> padraoEscolhido;
+				cin >> escolha;
 			}
 
-			bruta = new int[10000000];
-			kmP = new int[10000000];
+			bruta = new int[BIG];
+			kmP = new int[BIG];
 
-			cout << benchmark(texto, padrao, bruta, kmP) << endl;
+			cout << benchmark(Texto_Livros, Padroes_Palavras[escolha], bruta, kmP) << endl;
 
 			delete[] bruta;
 			delete[] kmP;
