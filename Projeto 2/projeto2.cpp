@@ -10,8 +10,10 @@
 
 using namespace std;
 
-// Compara o KMP e o força bruta
+// Faz a comparação de resultados
 /* Recebe como parametro o texto, o padrão e as ocorrencias
+* Dentro da função ele aplica a busca via força bruta e kmp, testa o tempo e da um resultado
+* para saber se é igual!!
 */
 string benchmark(const char *texto, const char *padrao, int *bruta, int *kmP){
 	clock_t start = clock();
@@ -25,10 +27,13 @@ string benchmark(const char *texto, const char *padrao, int *bruta, int *kmP){
 
 	int i = 0;
 	while (*(bruta + i) == *(kmP + i)){
-		cout << *(bruta + i) << ", " << *(kmP + i) << endl;
+		//cout << *(bruta + i) << ", " << *(kmP + i) << endl;
 		if(*(bruta + i) == -1 && *(kmP + i) == -1) return "Funcionou! :D";
 		++i;
-	}
+	} 
+	/* for (int i = 0; i < 21; i++) cout << bruta[i] << ", ";
+	cout << endl;
+	for (int i = 0; i < 21; i++) cout << kmP[i] << ", "; */
 
 	return "Não funcionou!! :'(";
 }
@@ -36,19 +41,18 @@ string benchmark(const char *texto, const char *padrao, int *bruta, int *kmP){
 // Tem que ver isso dai...
 int main(){
 	srand (time(NULL));
-	int opcao = 5, padraoEscolhido, tamTexto = 10, tamPadrao = 2, variedade = 5;
-	char keep = 'N';
+	int opcao = 5, padraoEscolhido, tamTexto = 2000, tamPadrao = 20, variedade = 26;
+	char keep = 'Y';
 
 	const char *texto, *padrao;
 	int *bruta, *kmP;
 
-	// Hunting Bugs
-
+	/* Hunting Bugs
 	bruta = new int[tamTexto + 1];
 	texto = gerador_aleatorio(tamTexto, variedade);
 	padrao = gerador_aleatorio(tamPadrao, variedade);
-	busca_sequencia(texto, padrao, bruta);
-	for (; *bruta != -1; bruta++) cout << *bruta << endl;
+	kmp(texto, padrao, bruta);
+	for (int i = 0; i < 5; i++) cout << bruta[i] << endl; */
 
 	// end
 

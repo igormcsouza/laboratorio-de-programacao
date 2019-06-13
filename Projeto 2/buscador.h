@@ -6,10 +6,11 @@
 * para dizer que ali tem uma ocorrencia.
 */
 void busca_sequencia(const char *texto, const char *padrao, int *ocorrencia){
-    bool achou = true;
+    bool achou;
 	for(int i = 0; texto[i] != '\0'; i++){
+        achou = true;
 		for(int j = 0; padrao[j] != '\0'; j++){
-            std::cout << texto[i+j] << ", " << padrao[j] << std::endl;
+            //std::cout << i << ": "<< texto[i+j] << ", " << padrao[j] << std::endl;
 			if(texto[i+j] != padrao[j]){ achou = false; break; }
 		}
 		if(achou){ *ocorrencia = i; ocorrencia++; }
@@ -18,7 +19,6 @@ void busca_sequencia(const char *texto, const char *padrao, int *ocorrencia){
 }
 
 // Calculo do PI para ser usado no KMP
-/**/
 int *calcular_pi(const char *padrao){
     const char *aux = padrao;
     int m = 0;
@@ -60,7 +60,7 @@ void kmp(const char *T, const char *P, int *ocorrencias){
                 ++i;
             } else j = pi[j - 1];
         } else {
-            if (P[j+1] != '\0') {
+            if (P[j+1] == '\0') {
                 *ocorrencias = i - j;
                 ++ocorrencias;
                 j = pi[j];
