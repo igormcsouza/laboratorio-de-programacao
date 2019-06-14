@@ -5,6 +5,8 @@
 #include "../Projeto 2/buscador.h"
 #include "heap.h"
 
+#define pause std::getchar();
+
 struct Folha{
     char character = '\0';
     int freq;
@@ -14,7 +16,11 @@ struct Folha{
 };
 
 void print_Folha(Folha f){
-    std::cout << f.character << ", " << f.freq << "|";
+    std::cout << "Folha: " 
+    << f.character << ", " 
+    << f.freq << ", " 
+    << f.right << ", " 
+    << f.left << "|" << std::endl;
 }
 
 int ocorrencias(int *occurs){
@@ -64,7 +70,7 @@ void arvore_huffman(Folha *huffman, int last){
         heap[i].weight = huffman[i].freq;
         heap[i].idx = i;
     }
-
+    
     // Organiza a arvore para ser um heap
     heapfy(heap, 0, last);
     No *min = new No[2]; // Vetor-extração dos minimos
@@ -81,10 +87,16 @@ void arvore_huffman(Folha *huffman, int last){
         huffman[last].left = min[0].idx; huffman[last].right = min[1].idx;
         last++; // Incremento a arvore de huffman para receber o no artificial
 
+        print_Folha(huffman[last-1]);
+        print_No(min[0]); print_No(min[1]);
+        pause; 
+
         ++count; // Coloca esse nó artificial na heap.
-        heap[count].idx = last;
-        heap[count].weight = huffman[last].freq;
+        heap[count].idx = last-1;
+        heap[count].weight = huffman[last-1].freq;
+        print_No(heap[count]);
         heapfy(heap, 0, count); // Ajeita a heap
+        std::cout << std::endl;
     }
 }
 

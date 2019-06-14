@@ -32,6 +32,7 @@ int main(){
 
 	cout << "Huffman Tree..." << endl;
 	arvore_huffman(List, last);
+	cout << endl << endl;
 	for(int i = 0; i < n; i++) print_Folha(List[i]);
 	cout << endl << endl;
 

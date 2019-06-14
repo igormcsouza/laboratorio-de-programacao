@@ -6,6 +6,10 @@ struct No{
     int idx = -1;
 };
 
+void print_No(No no){
+    std::cout << "No: " <<no.weight << ", " << no.idx << "|";
+}
+
 /* Recebe: Heap desorganizada
 * Constroi a heap, de forma que o mínimo fica na raiz e os filhos
 * são sempre maiores que o pai.
