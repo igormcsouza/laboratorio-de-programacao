@@ -11,7 +11,7 @@ class ArvoreBinaria {
     private:
     struct Noh { Tchave chave; Tvalor valor; 
     Noh *pai = nullptr; Noh *esq = nullptr; Noh *dir = nullptr; };
-    
+
     Noh *primeiro, *raiz;
 
     public:
@@ -39,7 +39,7 @@ class ArvoreBinaria {
                 if (n->dir != nullptr && n->dir->valor > valor){
                     n = n->dir;
                     while (n->esq != nullptr) n = n->esq; break;
-                } e lse {
+                } else {
                     if (n->pai != nullptr){
                         if(n->pai->esq == n){ n = n->pai; break; }
                         else n = n->pai;
@@ -48,7 +48,7 @@ class ArvoreBinaria {
             }
         }
 
-        TV operator*() { return n->valor; }
+        Tvalor operator*() { return n->valor; }
 
         bool operator!=(const Iterador &i) { return n != i.n; }
 };
@@ -91,7 +91,7 @@ int main () {
 
         ArvoreBinaria<int, double>::Iterador fim = C.fim(); // ou "auto fim ..."
 
-        //for (auto i = C.inicio(); i != fim; ++i) cout << *i << '\n';
+        for (auto i = C.inicio(); i != fim; ++i) cout << *i << '\n';
     }
 
     catch (const exception &e) {
