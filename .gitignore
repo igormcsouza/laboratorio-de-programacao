@@ -6,5 +6,6 @@ projeto1
 
 *.pdf
 !ch05-patterns.pdf
+*.igr
 
 .vscode/
