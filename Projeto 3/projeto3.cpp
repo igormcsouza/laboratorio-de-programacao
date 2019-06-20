@@ -3,40 +3,32 @@
 #include <iostream>
 #include <vector>
 #include "huffman.h"
-#include "heap.h"
 
 using namespace std;
 
 int main(){
 
 	cout << "Finding Frequency..." << endl;
-    int tamTexto = 10, variedade = 26;
-	const char *texto = gerador_aleatorio(tamTexto, variedade);
-	for(int i = 0; i < tamTexto; i++) cout << *(texto + i) << " "; 
-	cout << endl;
+    int tam_arq = 0, variedade = 256;
+	unsigned long long int *freq = new unsigned long long int[variedade];
+    for (int i = 0; i < variedade; i++) freq[i] = 0;
 
-    int *freq = frequencias(texto, variedade, tamTexto);
-    for(int i = 0; i < variedade; i++) cout << *(freq + i) << " ";
-	cout << endl << endl;
-
-	int size = 0;
-	for(int i = 0; i < variedade; i++)  if (*(freq + i) > 0) size++;
+	// Lendo o arquivo em bytecode e atualizando as freq
+    frequencias(freq, tam_arq);
 
 	cout << "Tree..." << endl;
-	int n = (2*size) - 1;
+	int n = (2*tam_arq) - 1;
 
 	Folha *List = new Folha[n];
-	int last = criar_arvore(freq, List);
+	criar_arvore(freq, variedade, List);
 	for(int i = 0; i < n; i++)  print_Folha(List[i]);
 	cout << endl << endl;
 
 	cout << "Huffman Tree..." << endl;
-	arvore_huffman(List, last);
+	arvore_huffman(List, tam_arq);
 	cout << endl << endl;
 	for(int i = 0; i < n; i++) print_Folha(List[i]);
 	cout << endl << endl;
 
 	return 0;
 }
-
-// ofstream::write()

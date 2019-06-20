@@ -1,14 +1,13 @@
 #ifndef HUFFMAN_H
 #define HUFFMAN_H
 
-#include "../Projeto 2/gerador.h"
-#include "../Projeto 2/buscador.h"
+#include <fstream>
 #include "heap.h"
 
 #define pause std::getchar();
 
 struct Folha{
-    char character = '\0';
+    unsigned long long int character = '\0';
     int freq;
     // Abaixo se inicia com -1 para indicar nulidade
     int right = -1; // Indice do Filho Direito
@@ -29,34 +28,30 @@ int ocorrencias(int *occurs){
     return sum;
 }
 
-int *frequencias(const char *texto, int variedade, int tamTexto){
-    int *frequencia = new int[variedade];
-    int *occurs = new int[tamTexto];
-    char *aux = new char[2]; aux[1] = '\0';
+void frequencias(unsigned long long int *frequencia, int &tam_arq){
+    unsigned long long int b;
+    std::ifstream file("inputs/text.txt");
 
-    int i = 0;
-    while (i < variedade){
-        aux[0] = dicionario(i);
-        kmp(texto, aux, occurs);
-        frequencia[i] = ocorrencias(occurs);
-        for (int j = 0; j < tamTexto; j++) *(occurs + j) = -1;
-        i++;
+    while(!file.eof()){
+        b = file.get();
+        if(b <= 256){
+            // std::cout << b << std::endl;
+            if(frequencia[b] == 0) ++tam_arq;
+            ++frequencia[b];
+        }
     }
-
-    delete occurs;
-    return frequencia;    
+	file.close();   
 }
 
 // Ocupa a arvore principal com os nós todos folhas a princípio
-int criar_arvore(int *v, Folha *Arvore){
+void criar_arvore(unsigned long long int *v, int variedade, Folha *Arvore){
     int j = 0;
-    for(int i = 0; i < 26; i++)
+    for(int i = 0; i < variedade; i++)
         if(v[i] != 0){
-            Arvore[j].character = dicionario(i);
+            Arvore[j].character = i;
             Arvore[j].freq = v[i];
             j++;
         }
-    return j;
 }
 
 /* Recebe: Array Folha, inteiro pra última posição
