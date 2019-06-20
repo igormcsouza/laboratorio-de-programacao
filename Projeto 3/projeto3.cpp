@@ -8,6 +8,7 @@ using namespace std;
 
 int main(){
 
+	system("clear");
 	cout << "Finding Frequency..." << endl;
     int tam_arq = 0, variedade = 256;
 	unsigned long long int *freq = new unsigned long long int[variedade];
@@ -16,17 +17,19 @@ int main(){
 	// Lendo o arquivo em bytecode e atualizando as freq
     frequencias(freq, tam_arq);
 
-	cout << "Tree..." << endl;
 	int n = (2*tam_arq) - 1;
-
 	Folha *List = new Folha[n];
 	criar_arvore(freq, variedade, List);
+
+	cout << "Original Tree..." << endl;
 	for(int i = 0; i < n; i++)  print_Folha(List[i]);
 	cout << endl << endl;
 
-	cout << "Huffman Tree..." << endl;
+	cout << "Building the heap..." << endl;
 	arvore_huffman(List, tam_arq);
 	cout << endl << endl;
+
+	cout << "Huffman Tree..." << endl;
 	for(int i = 0; i < n; i++) print_Folha(List[i]);
 	cout << endl << endl;
 

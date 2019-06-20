@@ -3,6 +3,7 @@
 
 #include <fstream>
 #include "heap.h"
+#include "directory.hpp"
 
 #define pause std::getchar();
 
@@ -30,7 +31,20 @@ int ocorrencias(int *occurs){
 
 void frequencias(unsigned long long int *frequencia, int &tam_arq){
     unsigned long long int b;
-    std::ifstream file("inputs/text.txt");
+    int t = 0;
+
+    string dir = string("inputs/");
+    vector<string> files = vector<string>();
+
+    getdir(dir,files);
+
+    std::cout << "Choose the file you want to open: " << std::endl;
+    for (unsigned int i = 0;i < files.size();i++) {
+        cout << i+1 << ": " << files[i] << ", ";
+    }
+    std::cin >> t;
+
+    std::ifstream file("inputs/" + files[t-1]);
 
     while(!file.eof()){
         b = file.get();
