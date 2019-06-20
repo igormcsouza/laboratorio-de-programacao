@@ -23,13 +23,7 @@ void print_Folha(Folha f, int i){
     << f.left << "|" << std::endl;
 }
 
-int ocorrencias(int *occurs){
-    int sum = 0;
-    while (*(occurs + sum) != -1) ++sum;
-    return sum;
-}
-
-bool frequencias(unsigned long long int *frequencia, int &tam_arq){
+string frequencias(unsigned long long int *frequencia, int &tam_arq, bool &empty){
     unsigned long long int b;
     int t = 0;
 
@@ -42,12 +36,14 @@ bool frequencias(unsigned long long int *frequencia, int &tam_arq){
     for (unsigned int i = 0;i < files.size();i++) {
         cout << i+1 << ": " << files[i] << endl;
     }
-    std::cin >> t;
+    std::cout << "Choose: "; std::cin >> t;
 
     std::ifstream file("inputs/" + files[t-1]);
     if(file.peek() == std::ifstream::traits_type::eof()){
         std::cout << "Arquivo Vazio..." << std::endl;
-        return false;
+        empty = true;
+        file.close();
+        return "";
     }
 
     while(!file.eof()){
@@ -58,8 +54,9 @@ bool frequencias(unsigned long long int *frequencia, int &tam_arq){
             ++frequencia[b];
         }
     }
-	file.close();
-    return true;   
+
+    file.close();
+    return "inputs/" + files[t-1];   
 }
 
 // Ocupa a arvore principal com os nós todos folhas a princípio
@@ -112,6 +109,53 @@ void arvore_huffman(Folha *huffman, int last){
         heapfy(heap, 0, count); // Ajeita a heap
         // std::cout << std::endl;
     }
+}
+
+/* Recebe um bytecode e devolve sua cadeia de bits como descrito na arvore
+* Entrada: Arvore de Huffman Completa, Bytecode.
+* Saída: Cadeia de bits como descrito na arvore.
+*
+*/
+unsigned long long int transform_to_bytecode(Folha *tree, unsigned long long int b){
+    return b;
+}
+
+bool writing(Folha *arvore_huffman, string file_name){
+    std::ofstream out(file_name + ".igr", ios::binary);
+
+    out.write((char*)&arvore_huffman, sizeof(arvore_huffman));
+
+    // Writing the file folowing the huffman tree
+    std::ifstream in(file_name);
+    unsigned long long int b;
+
+    while(!in.eof()){
+        b = in.get();
+        b = transform_to_bytecode(arvore_huffman, b);
+        out.write((char*)&b, sizeof(b));
+    }
+    
+    
+    in.close();
+    out.close();
+    return true;
+}
+
+// Em fase de teste, ou seja, não está pronta!!
+bool reading(string file_name, int n){
+    // Reading from it
+    ifstream input_file(file_name + ".igr", ios::binary);
+    Folha *TEST = new Folha[n];
+    char aux;
+
+    input_file.read((char*)&TEST, sizeof(TEST));
+	for(int i = 0; i < n; i++) print_Folha(TEST[i], i);
+    while(!input_file.eof()){
+        input_file.read((char*)&aux, sizeof(aux));
+        cout << aux;
+    }
+
+    return true;
 }
 
 #endif
