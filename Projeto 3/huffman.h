@@ -135,7 +135,6 @@ bool writing(Folha *arvore_huffman, string file_name){
         out.write((char*)&b, sizeof(b));
     }
     
-    
     in.close();
     out.close();
     return true;
