@@ -38,6 +38,10 @@ int main(){
 	cout << "done!" << endl;
 	// cout << endl << endl;
 
+	cout << "\n\nSIZEOF: " << sizeof(List) << endl;
+
+	return 0;
+
 	cout << "Huffman Tree Built Succesfully!" << endl;
 	for(int i = 0; i < n; i++) print_Folha(List[i], i);
 	cout << endl << endl;

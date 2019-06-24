@@ -147,7 +147,7 @@ bool reading(string file_name, int n){
     Folha *TEST = new Folha[n];
     char aux;
 
-    input_file.read((char*)&TEST, sizeof(TEST));
+    input_file.read((char*)TEST, (2 * n - 1) * sizeof(Folha));
 	for(int i = 0; i < n; i++) print_Folha(TEST[i], i);
     while(!input_file.eof()){
         input_file.read((char*)&aux, sizeof(aux));
