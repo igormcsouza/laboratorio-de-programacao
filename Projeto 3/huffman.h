@@ -154,11 +154,19 @@ bool writing(Huff *huffman_tree, string file_name, int variety, int file_size){
     codify(code, huffman_tree, variety);
     cout << endl << " ...Codify was done sucessfully!... " << endl;
 
-    unsigned char b;
+    unsigned char b, buffer = 0;
+    unsigned count = 0;
     while(!in.eof()){
         b = in.get();
         for (unsigned int i = 0; i < code[b].size(); i++)
-            out.write((char *)&code[b][i], sizeof(code[b][i]));
+            buffer <<= code[b][i]; // Make room for next bit.
+            if (b) buffer |= 1; // Set if necessary.
+            count++; // Remember we have added a bit.
+            if (count == 8) {
+                out.write((char *)&buffer, sizeof(buffer)); // Error handling elided.
+                buffer = 0;
+                count = 0;
+            }
     }
     
     in.close();
