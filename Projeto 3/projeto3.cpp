@@ -25,10 +25,17 @@ int main(int argc, char **argv){
     int variety = 0, file_size = 0;
 	unsigned long long int *frequency = new unsigned long long int[256];
     for (int i = 0; i < 256; i++) frequency[i] = 0;
+	string file_name = get_file();
 
 	// Lendo o arquivo em bytecode e atualizando as freq
-	// string file_name = get_file((string)argv[3]);
-	string file_name = get_file();
+	// if((string)argv[2] == "--dir"){
+	// 	// string file_name = get_file((string)argv[3]);
+	// 	file_name = get_file();
+	// }
+	// if((string)argv[2] == "--input"){
+	// 	file_name = (string)argv[3];
+	// 	cout << "File Name: " + file_name << endl; 
+	// }
 
 	if((string)argv[1] == "--compressor"){
 		system("clear");
@@ -36,8 +43,7 @@ int main(int argc, char **argv){
 		cout << "Finding Frequency..." << endl;
 		if(find_frequency(file_name, frequency, variety, file_size)) return 0;
 
-		int n = (2*variety) - 1;
-		Huff *huffman_tree = new Huff[n];
+		Huff *huffman_tree = new Huff[(2*variety) - 1];
 
 		initializing_tree(frequency, 256, huffman_tree); 
 		cout << "Original Tree...";
@@ -51,11 +57,11 @@ int main(int argc, char **argv){
 		// cout << endl << endl;
 
 		cout << "Huffman Tree Built Succesfully!" << endl;
-		for(int i = 0; i < n; i++) print_huff(huffman_tree[i], i);
+		for(int i = 0; i < (2*variety) - 1; i++) print_huff(huffman_tree[i], i);
 		cout << endl;
 
 		cout << "Building a output file...";
-		if(writing(huffman_tree, file_name)) cout << "Done..." << endl;
+		if(writing(huffman_tree, file_name, variety, file_size)) cout << "...Done!" << endl;
 	}
 
 	if((string)argv[1] == "--decompressor") cout << "COMMING SOON" << endl;

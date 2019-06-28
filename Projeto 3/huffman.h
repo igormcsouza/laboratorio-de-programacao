@@ -104,26 +104,61 @@ void build_huffman_tree(Huff *huffman_tree, int last_position){
     }
 }
 
+// Fas a busca pela folha de Huffman e retorna o código associado
+void BFS(string code[256], string &aux, Huff *huffman_tree, int i){
+    // cout << "Indice Atual: " << i << endl;
+    // cout << "aux = " << aux << endl;
+    // if (controle[i] != nullptr){
+    if (!(huffman_tree[i].right == -1 && huffman_tree[i].left == -1)){
+        aux += '0';
+        BFS(code, aux, huffman_tree, (huffman_tree + i)->left);
+        aux += '1';
+        BFS(code, aux, huffman_tree, (huffman_tree + i)->right);
+        // code[huffman[i].elem].append(aux);
+    } else 
+        code[huffman_tree[i].character].append(aux);
+    aux.pop_back();
+}
+
 /* Recebe um bytecode e devolve sua cadeia de bits como descrito na arvore
 * Entrada: Arvore de Huffman Completa, Bytecode.
 * Saída: Cadeia de bits como descrito na arvore.
-*
 */
-// unsigned long long int transform_to_bytecode(Folha *tree, unsigned long long int b){}
+void codify(string code[256], Huff *huffman_tree, int variety){
+    // cout << "Debug codificacao..." << endl;
+    // cout << "Numero de elementos: " << numeroElementos << endl;
+    // cout << "Tamanho da arvore de huffman: " << 2 * numeroElementos - 1 << endl;
+    string aux;
+    // cout << "aux: " << aux << endl;
+    // getchar();
 
-bool writing(Huff *arvore_huffman, string file_name){
+    BFS(code, aux, huffman_tree, 2 * variety - 2);
+
+    for (int i = 0; i < 256; i++)
+        if(!code[i].empty())
+            cout << "Byte: " << (unsigned char)i << " Code: " << code[i] << endl;
+}
+
+bool writing(Huff *huffman_tree, string file_name, int variety, int file_size){
+    int tree_size = (2*variety) - 1;
     std::ofstream out(file_name + ".igr", ios::binary);
 
-    out.write((char*)&arvore_huffman, sizeof(arvore_huffman));
+    out.write((char*)&tree_size, sizeof(tree_size));
+    out.write((char*)huffman_tree, tree_size * sizeof(huffman_tree));
+    out.write((char*)&file_size, sizeof(file_size));
 
     // Writing the file folowing the huffman tree
     std::ifstream in(file_name);
-    unsigned long long int b;
+    string code[256];
 
+    codify(code, huffman_tree, variety);
+    cout << endl << " ...Codify was done sucessfully!... " << endl;
+
+    unsigned char b;
     while(!in.eof()){
         b = in.get();
-        //b = transform_to_bytecode(arvore_huffman, b);
-        out.write((char*)&b, sizeof(b));
+        for (unsigned int i = 0; i < code[b].size(); i++)
+            out.write((char *)&code[b][i], sizeof(code[b][i]));
     }
     
     in.close();
