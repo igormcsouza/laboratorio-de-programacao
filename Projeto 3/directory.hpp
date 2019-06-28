@@ -27,4 +27,19 @@ int getdir (string dir, vector<string> &files)
     return 0;
 }
 
+string get_file(string dir = "inputs/"){
+    int t = 0;
+    vector<string> files = vector<string>();
+
+    getdir(dir,files);
+
+    std::cout << "Choose the file you want to open: " << std::endl;
+    for (unsigned int i = 0;i < files.size();i++) {
+        cout << i+1 << ": " << files[i] << endl;
+    }
+    std::cout << "Choose: "; std::cin >> t;
+
+    return dir + files[t-1];
+}
+
 #endif
