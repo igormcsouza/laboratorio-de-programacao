@@ -139,26 +139,32 @@ void codify(string code[256], Huff *huffman_tree, int variety){
             cout << "Byte: " << (unsigned char)i << " Code: " << code[i] << endl;
 }
 
-bool writing(Huff *huffman_tree, string file_name, int variety, int file_size){
+bool writing(
+    Huff *huffman_tree, 
+    string input_file_name, 
+    string output_file_name, 
+    int variety, 
+    int file_size){
+
     int tree_size = (2*variety) - 1;
-    std::ofstream out(file_name + ".igr", ios::binary);
+    std::ofstream out(output_file_name, ios::binary);
 
     out.write((char*)&tree_size, sizeof(tree_size));
     out.write((char*)huffman_tree, tree_size * sizeof(huffman_tree));
     out.write((char*)&file_size, sizeof(file_size));
 
     // Writing the file folowing the huffman tree
-    std::ifstream in(file_name);
+    std::ifstream in(input_file_name);
     string code[256];
 
     codify(code, huffman_tree, variety);
     cout << endl << " ...Codify was done sucessfully!... " << endl;
 
-    unsigned char b;
+    unsigned char byte;
     while(!in.eof()){
-        b = in.get();
-        for (unsigned int i = 0; i < code[b].size(); i++)
-            out.write((char *)&code[b][i], sizeof(code[b][i]));
+        byte = in.get();
+        for (unsigned int i = 0; i < code[byte].size(); i++)
+            out.write((char *)&code[byte][i], sizeof(code[byte][i]));
     }
     
     in.close();

@@ -10,13 +10,18 @@ using namespace std;
 
 int main(int argc, char **argv){
 
-	if((argc > 4) || 
-	((string)argv[1] != "--compressor" && (string)argv[1] != "--decompressor")){
+	if((argc > 6) || 
+	((string)argv[1] != "--compressor" && (string)argv[1] != "--decompressor") ||
+	((string)argv[2] != "--input" && (string)argv[2] != "-i") ||
+	((string)argv[4] != "--output" && (string)argv[4] != "-o")){
 		cout << "HELP!" << endl;
-		cout << "--compressor   : Compress any file at any folder" << endl;
-		cout << "--decompressor : Decompress .igr files" << endl;
-		cout << "-dir file_path : Specify where the file is, not necessary" << endl;
-		return 1;
+		cout << "--compressor             : Compress any file at any folder" << endl;
+		cout << "--decompressor           : Decompress .igr files" << endl;
+		cout << "--input or -i file_name  : Specify input file, inside the input folder" << endl;
+		cout << "--output or -o file_name : Specify output file, on the output folder" << endl;
+		cout << endl;
+		cout << "*Those above are not necessary, but if do, must be together" << endl;
+		return 0;
 	}
 
 	system("clear");
@@ -25,23 +30,26 @@ int main(int argc, char **argv){
     int variety = 0, file_size = 0;
 	unsigned long long int *frequency = new unsigned long long int[256];
     for (int i = 0; i < 256; i++) frequency[i] = 0;
-	string file_name = get_file();
+	string input_file_name, output_file_name;
 
 	// Lendo o arquivo em bytecode e atualizando as freq
-	// if((string)argv[2] == "--dir"){
-	// 	// string file_name = get_file((string)argv[3]);
-	// 	file_name = get_file();
-	// }
-	// if((string)argv[2] == "--input"){
-	// 	file_name = (string)argv[3];
-	// 	cout << "File Name: " + file_name << endl; 
-	// }
+	if((string)argv[2] == "--input" || (string)argv[2] == "-i")
+		input_file_name = "inputs/" + (string)argv[3];
+	else input_file_name = get_file();
+	cout << "Input File Name: " + input_file_name << endl; 
+
+	if((string)argv[4] == "--output" || (string)argv[4] == "-o")
+		output_file_name = "outputs/" + (string)argv[5];
+	else output_file_name = "outputs/" + input_file_name + ".igr";
+	cout << "Output File Name: " + output_file_name << endl;
+
+	getchar(); 
 
 	if((string)argv[1] == "--compressor"){
 		system("clear");
 		cout << "Starting the compression!!" << endl << endl;
 		cout << "Finding Frequency..." << endl;
-		if(find_frequency(file_name, frequency, variety, file_size)) return 0;
+		if(find_frequency(input_file_name, frequency, variety, file_size)) return 0;
 
 		Huff *huffman_tree = new Huff[(2*variety) - 1];
 
@@ -61,7 +69,12 @@ int main(int argc, char **argv){
 		cout << endl;
 
 		cout << "Building a output file...";
-		if(writing(huffman_tree, file_name, variety, file_size)) cout << "...Done!" << endl;
+		if(writing(
+			huffman_tree, 
+			input_file_name,
+			output_file_name, 
+			variety, 
+			file_size)) cout << "...Done!" << endl;
 	}
 
 	if((string)argv[1] == "--decompressor") cout << "COMMING SOON" << endl;
