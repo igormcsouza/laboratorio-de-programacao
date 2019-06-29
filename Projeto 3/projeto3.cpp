@@ -11,11 +11,12 @@ using namespace std;
 
 int main(int argc, char **argv){
 
-	if((argc > 6) || 
-	((string)argv[1] != "--compressor" && (string)argv[1] != "--decompressor") ||
-	((string)argv[2] != "--input" && (string)argv[2] != "-i") ||
-	((string)argv[4] != "--output" && (string)argv[4] != "-o")){
-		cout << "HELP!" << endl;
+	// if((argc > 6) || 
+	// ((string)argv[1] != "--compressor" && (string)argv[1] != "--decompressor") ||
+	// ((string)argv[2] != "--input" && (string)argv[2] != "-i") ||
+	// ((string)argv[4] != "--output" && (string)argv[4] != "-o")){
+	if((string)argv[1] == "--help" || (string)argv[1] == "-h"){
+		cout << "Do you need some HELP! Let me give you a hand!" << endl << endl;
 		cout << "--compressor             : Compress any file at any folder" << endl;
 		cout << "--decompressor           : Decompress .igr files" << endl;
 		cout << "--input or -i file_name  : Specify input file, inside the input folder" << endl;
@@ -34,7 +35,7 @@ int main(int argc, char **argv){
 	string input_file_name, output_file_name;
 
 	if((string)argv[1] == "--compressor"){
-		get_informed_file(argv, input_file_name, output_file_name);
+		get_informed_file(argc, argv, input_file_name, output_file_name);
 		cout << "Continue? Press any key..." << getchar(); 
 
 		cout << "Starting the compression!!" << endl << endl;
@@ -58,7 +59,7 @@ int main(int argc, char **argv){
 		for(int i = 0; i < (2*variety) - 1; i++) print_huff(huffman_tree[i], i);
 		cout << endl;
 
-		cout << "Building a output file...";
+		cout << "Building a output file..." << endl;
 		if(writing(
 			huffman_tree, 
 			input_file_name,
