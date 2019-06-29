@@ -34,17 +34,7 @@ int main(int argc, char **argv){
 	string input_file_name, output_file_name;
 
 	if((string)argv[1] == "--compressor"){
-		// Fazendo a busca do arquivo informado se existir
-		if((string)argv[2] == "--input" || (string)argv[2] == "-i")
-			input_file_name = "inputs/" + (string)argv[3];
-		else input_file_name = get_file();
-		cout << "Input File Name: " + input_file_name << endl; 
-
-		if((string)argv[4] == "--output" || (string)argv[4] == "-o")
-			output_file_name = "outputs/" + (string)argv[5];
-		else output_file_name = "outputs/" + input_file_name + ".igr";
-		cout << "Output File Name: " + output_file_name << endl;
-
+		get_informed_file(argv, input_file_name, output_file_name);
 		cout << "Continue? Press any key..." << getchar(); 
 
 		cout << "Starting the compression!!" << endl << endl;

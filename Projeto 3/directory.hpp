@@ -42,4 +42,17 @@ string get_file(string dir = "inputs/"){
     return dir + files[t-1];
 }
 
+void get_informed_file(char **argv, string &input_file_name, string &output_file_name){
+    // Fazendo a busca do arquivo informado se existir
+		if((string)argv[2] == "--input" || (string)argv[2] == "-i")
+			input_file_name = "inputs/" + (string)argv[3];
+		else input_file_name = get_file();
+		cout << "Input File Name: " + input_file_name << endl; 
+
+		if((string)argv[4] == "--output" || (string)argv[4] == "-o")
+			output_file_name = "outputs/" + (string)argv[5];
+		else output_file_name = "outputs/" + input_file_name + ".igr";
+		cout << "Output File Name: " + output_file_name << endl;
+}
+
 #endif
