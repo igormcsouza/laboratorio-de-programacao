@@ -1,4 +1,5 @@
 //g++ -Wall -Wextra -std=c++17 -pedantic -o projeto3 projeto3.cpp
+//compile projeto3 projeto3.cpp
 
 #include <iostream>
 #include <fstream>
@@ -25,28 +26,27 @@ int main(int argc, char **argv){
 	}
 
 	system("clear");
-	cout << "Hello, Welcome to the compressor..." << endl;
+	cout << "*** Hello, Welcome to the compressor... ***" << endl;
 	
     int variety = 0, file_size = 0;
 	unsigned long long int *frequency = new unsigned long long int[256];
     for (int i = 0; i < 256; i++) frequency[i] = 0;
 	string input_file_name, output_file_name;
 
-	// Lendo o arquivo em bytecode e atualizando as freq
-	if((string)argv[2] == "--input" || (string)argv[2] == "-i")
-		input_file_name = "inputs/" + (string)argv[3];
-	else input_file_name = get_file();
-	cout << "Input File Name: " + input_file_name << endl; 
-
-	if((string)argv[4] == "--output" || (string)argv[4] == "-o")
-		output_file_name = "outputs/" + (string)argv[5];
-	else output_file_name = "outputs/" + input_file_name + ".igr";
-	cout << "Output File Name: " + output_file_name << endl;
-
-	getchar(); 
-
 	if((string)argv[1] == "--compressor"){
-		system("clear");
+		// Lendo o arquivo em bytecode e atualizando as freq
+		if((string)argv[2] == "--input" || (string)argv[2] == "-i")
+			input_file_name = "inputs/" + (string)argv[3];
+		else input_file_name = get_file();
+		cout << "Input File Name: " + input_file_name << endl; 
+
+		if((string)argv[4] == "--output" || (string)argv[4] == "-o")
+			output_file_name = "outputs/" + (string)argv[5];
+		else output_file_name = "outputs/" + input_file_name + ".igr";
+		cout << "Output File Name: " + output_file_name << endl;
+
+		cout << "Continue? Press any key..." << getchar(); 
+
 		cout << "Starting the compression!!" << endl << endl;
 		cout << "Finding Frequency..." << endl;
 		if(find_frequency(input_file_name, frequency, variety, file_size)) return 0;

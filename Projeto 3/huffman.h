@@ -104,39 +104,43 @@ void build_huffman_tree(Huff *huffman_tree, int last_position){
     }
 }
 
-// Fas a busca pela folha de Huffman e retorna o código associado
+/* Aqui se inicia de fato a compressão e também a decompressão. Após ter a árvore pronta, o que
+* é necessário ser feito é criar uma matriz de códigos, cada byte terá o seu código, e então
+* escreveremos esse código em um arquivo, mas escreveremos o código bit a bit! No branch dog estou
+* fazendo alterações para a leitura de bits. Aqui no master estou fazendo outras alterações 
+* na aplicação em geral!
+*/
+
+/* Faz a busca pelo código associado e preenche o vetor de códigos
+* Recebe: Um vetor de códigos, um vetor aux para armazenar os códigos que estamos adquirindo,
+*         a arvore de huffman e um inteiro para o indice do byte em questão.
+* Retorna: Nada, mas preenche o vetor aux e ao fim, o vetor code.
+*/
 void BFS(string code[256], string &aux, Huff *huffman_tree, int i){
-    // cout << "Indice Atual: " << i << endl;
-    // cout << "aux = " << aux << endl;
-    // if (controle[i] != nullptr){
-    if (!(huffman_tree[i].right == -1 && huffman_tree[i].left == -1)){
+    // cout << "Indice Atual: " << i << ", aux = " << aux << endl;
+
+    // Verifica se os filhos do nó são ambos nulos, ou seja, se ele é folha
+    if(!(huffman_tree[i].right == -1 && huffman_tree[i].left == -1)){
         aux += '0';
         BFS(code, aux, huffman_tree, (huffman_tree + i)->left);
         aux += '1';
         BFS(code, aux, huffman_tree, (huffman_tree + i)->right);
         // code[huffman[i].elem].append(aux);
-    } else 
-        code[huffman_tree[i].character].append(aux);
+    } else code[huffman_tree[i].character].append(aux);
     aux.pop_back();
 }
 
-/* Recebe um bytecode e devolve sua cadeia de bits como descrito na arvore
-* Entrada: Arvore de Huffman Completa, Bytecode.
-* Saída: Cadeia de bits como descrito na arvore.
+/* Preenche o vetor de códigos de acordo com a arvore de Huffman
+* Recebe: Vetor de códigos, Arvore de Huffman Completa e o total de variedades da àrvore
+* Retorna: Nada, mas preenche o vetor de códigos.
 */
 void codify(string code[256], Huff *huffman_tree, int variety){
-    // cout << "Debug codificacao..." << endl;
-    // cout << "Numero de elementos: " << numeroElementos << endl;
-    // cout << "Tamanho da arvore de huffman: " << 2 * numeroElementos - 1 << endl;
     string aux;
-    // cout << "aux: " << aux << endl;
-    // getchar();
 
     BFS(code, aux, huffman_tree, 2 * variety - 2);
 
     for (int i = 0; i < 256; i++)
-        if(!code[i].empty())
-            cout << "Byte: " << (unsigned char)i << " Code: " << code[i] << endl;
+        if(!code[i].empty()) cout << "B: " << (unsigned char)i << " C: " << code[i] << endl;
 }
 
 bool writing(
@@ -173,9 +177,6 @@ bool writing(
 }
 
 // Em fase de teste, ou seja, não está pronta!!
-bool reading(string file_name, int n){
-    // Reading from it
-    return true;
-}
+bool reading() { return true; }
 
 #endif
