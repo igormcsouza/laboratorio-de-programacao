@@ -34,7 +34,7 @@ int main(int argc, char **argv){
 	string input_file_name, output_file_name;
 
 	if((string)argv[1] == "--compressor"){
-		// Lendo o arquivo em bytecode e atualizando as freq
+		// Fazendo a busca do arquivo informado se existir
 		if((string)argv[2] == "--input" || (string)argv[2] == "-i")
 			input_file_name = "inputs/" + (string)argv[3];
 		else input_file_name = get_file();
