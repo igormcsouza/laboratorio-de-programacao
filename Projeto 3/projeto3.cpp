@@ -39,7 +39,6 @@ int main(int argc, char **argv){
 		cout << "Continue? Press any key..." << getchar(); 
 
 		cout << "Starting the compression!!" << endl << endl;
-		cout << "Finding Frequency..." << endl;
 		if(find_frequency(input_file_name, frequency, variety, file_size)) return 0;
 
 		Huff *huffman_tree = new Huff[(2*variety) - 1];
@@ -50,7 +49,6 @@ int main(int argc, char **argv){
 		// cout << endl << endl;
 		cout << "done!" << endl;
 
-		cout << "Building the heap and the Tree...";
 		build_huffman_tree(huffman_tree, variety);
 		cout << "done!" << endl;
 		// cout << endl << endl;
@@ -59,7 +57,6 @@ int main(int argc, char **argv){
 		for(int i = 0; i < (2*variety) - 1; i++) print_huff(huffman_tree[i], i);
 		cout << endl;
 
-		cout << "Building a output file..." << endl;
 		if(writing(
 			huffman_tree, 
 			input_file_name,

@@ -29,6 +29,7 @@ bool find_frequency(
     int &variety,
     int &file_size){
     
+    std::cout << "Finding Frequency..." << endl;
     std::ifstream file(file_name);
     if(file.peek() == std::ifstream::traits_type::eof()){
         std::cout << "Arquivo Vazio..." << std::endl;
@@ -68,6 +69,7 @@ void initializing_tree(unsigned long long int *v, int variety, Huff *Tree){
 */
 void build_huffman_tree(Huff *huffman_tree, int last_position){
     // Cria um heap, cada nó é um elemento da arvore de huffman
+    std::cout << "Building the heap and the Tree...";
     No *heap = new No[last_position];
     for(int i = 0; i < last_position; i++){
         heap[i].weight = huffman_tree[i].frequency;
@@ -150,6 +152,7 @@ bool writing(
     int variety, 
     int file_size){
 
+    cout << "Building a output file..." << endl;
     int tree_size = (2*variety) - 1;
     std::ofstream out(output_file_name, ios::binary);
 
