@@ -183,7 +183,7 @@ bool writing(
 // Em fase de teste, ou seja, não está pronta!!
 bool reading(string input_file_name, string output_file_name) { 
     std::ifstream in(input_file_name);
-    int variety = in.get() + 1;
+    int8_t variety; in.read((char*)variety, sizeof(variety)); variety++;
 
     Huff *huffman_tree = new Huff[2*(variety)-1];
     in.read((char *)&huffman_tree, (2*(variety)-1) * sizeof(huffman_tree));
@@ -193,8 +193,14 @@ bool reading(string input_file_name, string output_file_name) {
     cout << endl << " ...Codify was done sucessfully!... " << endl;
 
     int file_size = in.get();
+    std::ofstream out(output_file_name);
 
-    
+    unsigned char b, buffer = 0;
+    unsigned count_bits = 0, counti = 0;
+    while(!in.eof()){
+        b = in.get();
+        // ? DO What????
+    }
 
     return true; 
 }
