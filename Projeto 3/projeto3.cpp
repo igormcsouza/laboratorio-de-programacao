@@ -9,32 +9,31 @@
 
 using namespace std;
 
-int main(int argc, char **argv){
+void help_list(){
+	cout << "Do you need some HELP! Let me give you a hand!" << endl << endl;
+	cout << "--compressor             : Compress any file at any folder" << endl;
+	cout << "--decompressor           : Decompress .igr files" << endl;
+	cout << "--input or -i file_name  : Specify input file, inside the input folder" << endl;
+	cout << "--output or -o file_name : Specify output file, on the output folder" << endl;
+	cout << endl;
+	cout << "*Those above are not necessary, but if do, must be together" << endl;
+}
 
-	// if((argc > 6) || 
-	// ((string)argv[1] != "--compressor" && (string)argv[1] != "--decompressor") ||
-	// ((string)argv[2] != "--input" && (string)argv[2] != "-i") ||
-	// ((string)argv[4] != "--output" && (string)argv[4] != "-o")){
-	if((string)argv[1] == "--help" || (string)argv[1] == "-h"){
-		cout << "Do you need some HELP! Let me give you a hand!" << endl << endl;
-		cout << "--compressor             : Compress any file at any folder" << endl;
-		cout << "--decompressor           : Decompress .igr files" << endl;
-		cout << "--input or -i file_name  : Specify input file, inside the input folder" << endl;
-		cout << "--output or -o file_name : Specify output file, on the output folder" << endl;
-		cout << endl;
-		cout << "*Those above are not necessary, but if do, must be together" << endl;
-		return 0;
-	}
+int main(int argc, char **argv){
 
 	system("clear");
 	cout << "*** Hello, Welcome to the compressor... ***" << endl;
-	
-    int variety = 0, file_size = 0;
+
+	int variety = 0, file_size = 0;
 	unsigned long long int *frequency = new unsigned long long int[256];
     for (int i = 0; i < 256; i++) frequency[i] = 0;
 	string input_file_name, output_file_name;
 
-	if((string)argv[1] == "--compressor"){
+	if((string)argv[1] == "--help" || (string)argv[1] == "-h"){
+		help_list();
+		return 0;
+
+	} else if((string)argv[1] == "--compressor"){
 		get_informed_file(argc, argv, input_file_name, output_file_name);
 		cout << "Continue? Press any key..." << getchar(); 
 
@@ -63,9 +62,19 @@ int main(int argc, char **argv){
 			output_file_name, 
 			variety, 
 			file_size)) cout << "...Done!" << endl;
+	
+	} else if((string)argv[1] == "--decompressor"){
+		get_informed_file(argc, argv, input_file_name, output_file_name);
+		cout << "Continue? Press any key..." << getchar(); 
+
+		cout << "Reading the compressed file and reconstructing a original file..." << endl;
+		if(reading(input_file_name, output_file_name)) cout << "...Done!" << endl;
+		
+	} else {
+		cout << "Command not found, please try --help or -h to find out more...";
 	}
 
-	if((string)argv[1] == "--decompressor") cout << "COMMING SOON" << endl;
+	
 
 	return 0;
 }

@@ -41,15 +41,29 @@ string get_file(string dir = "inputs/"){
 
 void get_informed_file(int argc, char **argv, string &input_file_name, string &output_file_name){
     // Fazendo a busca do arquivo informado se existir
-    if(argc >= 4 && ((string)argv[2] == "--input" || (string)argv[2] == "-i"))
-        input_file_name = "inputs/" + (string)argv[3];
-    else input_file_name = get_file();
-    cout << "Input File Name: " + input_file_name << endl; 
+    if((string)argv[1] == "--compressor"){
+        if(argc >= 4 && ((string)argv[2] == "--input" || (string)argv[2] == "-i"))
+            input_file_name = "inputs/" + (string)argv[3];
+        else input_file_name = get_file();
+        cout << "Input File Name: " + input_file_name << endl; 
 
-    if(argc >= 6 && ((string)argv[4] == "--output" || (string)argv[4] == "-o"))
-        output_file_name = "outputs/" + (string)argv[5];
-    else output_file_name = "outputs/out.igr";
-    cout << "Output File Name: " + output_file_name << endl;
+        if(argc >= 6 && ((string)argv[4] == "--output" || (string)argv[4] == "-o"))
+            output_file_name = "outputs/" + (string)argv[5];
+        else output_file_name = "outputs/out.igr";
+        cout << "Output File Name: " + output_file_name << endl;
+    }
+
+    if((string)argv[1] == "--decompressor"){
+        if(argc >= 4 && ((string)argv[2] == "--input" || (string)argv[2] == "-i"))
+            input_file_name = "outputs/" + (string)argv[3];
+        else input_file_name = get_file("outputs/");
+        cout << "Input File Name: " + input_file_name << endl; 
+
+        if(argc >= 6 && ((string)argv[4] == "--output" || (string)argv[4] == "-o"))
+            output_file_name = "inputs/" + (string)argv[5];
+        else output_file_name = "inputs/out.txt";
+        cout << "Output File Name: " + output_file_name << endl;
+    }
 }
 
 #endif
