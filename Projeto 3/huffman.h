@@ -154,9 +154,10 @@ bool writing(
 
     cout << "Building a output file..." << endl;
     int tree_size = (2*variety) - 1;
+    int variety_ = (int8_t)variety - 1;
     std::ofstream out(output_file_name, ios::binary);
 
-    out.write((char*)&tree_size, sizeof(tree_size));
+    out.write((char*)&variety_, sizeof(variety_));
     out.write((char*)huffman_tree, tree_size * sizeof(huffman_tree));
     out.write((char*)&file_size, sizeof(file_size));
 
@@ -180,6 +181,22 @@ bool writing(
 }
 
 // Em fase de teste, ou seja, não está pronta!!
-bool reading() { return true; }
+bool reading(string input_file_name, string output_file_name) { 
+    std::ifstream in(input_file_name);
+    int variety = in.get() + 1;
+
+    Huff *huffman_tree = new Huff[2*(variety)-1];
+    in.read((char *)&huffman_tree, (2*(variety)-1) * sizeof(huffman_tree));
+
+    string code[256];
+    codify(code, huffman_tree, variety);
+    cout << endl << " ...Codify was done sucessfully!... " << endl;
+
+    int file_size = in.get();
+
+    
+
+    return true; 
+}
 
 #endif
