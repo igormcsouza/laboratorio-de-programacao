@@ -178,8 +178,7 @@ bool writing(
             count++; // Remember we have added a bit.
             if (count == 8) {
                 out.write((char*)&buffer, sizeof(buffer)); // writing code
-                buffer = 0;
-                count = 0;
+                buffer = 0; count = 0;
             }
         }
     }
