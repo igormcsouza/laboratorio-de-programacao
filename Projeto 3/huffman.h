@@ -168,11 +168,20 @@ bool writing(
     codify(code, huffman_tree, variety);
     cout << endl << " ...Codify was done sucessfully!... " << endl;
 
-    unsigned char byte;
+    unsigned char b, buffer = 0;
+    unsigned count = 0;
     while(!in.eof()){
-        byte = in.get();
-        for (unsigned int i = 0; i < code[byte].size(); i++)
-            out.write((char *)&code[byte][i], sizeof(code[byte][i]));
+        b = in.get();
+        for (unsigned int i = 0; i < code[b].size(); i++){
+            buffer <<= 1; // Make room for next bit.
+            if (code[b][i]) buffer |= 1; // Set 1 if necessary.
+            count++; // Remember we have added a bit.
+            if (count == 8) {
+                out.write((char*)&buffer, sizeof(buffer)); // writing code
+                buffer = 0;
+                count = 0;
+            }
+        }
     }
     
     in.close();
