@@ -1,4 +1,5 @@
 //g++ -Wall -Wextra -std=c++17 -pedantic -o projeto3 projeto3.cpp
+//compile projeto3 projeto3.cpp
 
 #include <iostream>
 #include <fstream>
@@ -10,38 +11,35 @@ using namespace std;
 
 int main(int argc, char **argv){
 
-	if((argc > 4) || 
-	((string)argv[1] != "--compressor" && (string)argv[1] != "--decompressor")){
-		cout << "HELP!" << endl;
-		cout << "--compressor   : Compress any file at any folder" << endl;
-		cout << "--decompressor : Decompress .igr files" << endl;
-		cout << "-dir file_path : Specify where the file is, not necessary" << endl;
-		return 1;
+	// if((argc > 6) || 
+	// ((string)argv[1] != "--compressor" && (string)argv[1] != "--decompressor") ||
+	// ((string)argv[2] != "--input" && (string)argv[2] != "-i") ||
+	// ((string)argv[4] != "--output" && (string)argv[4] != "-o")){
+	if((string)argv[1] == "--help" || (string)argv[1] == "-h"){
+		cout << "Do you need some HELP! Let me give you a hand!" << endl << endl;
+		cout << "--compressor             : Compress any file at any folder" << endl;
+		cout << "--decompressor           : Decompress .igr files" << endl;
+		cout << "--input or -i file_name  : Specify input file, inside the input folder" << endl;
+		cout << "--output or -o file_name : Specify output file, on the output folder" << endl;
+		cout << endl;
+		cout << "*Those above are not necessary, but if do, must be together" << endl;
+		return 0;
 	}
 
 	system("clear");
-	cout << "Hello, Welcome to the compressor..." << endl;
+	cout << "*** Hello, Welcome to the compressor... ***" << endl;
 	
     int variety = 0, file_size = 0;
 	unsigned long long int *frequency = new unsigned long long int[256];
     for (int i = 0; i < 256; i++) frequency[i] = 0;
-	string file_name = get_file();
-
-	// Lendo o arquivo em bytecode e atualizando as freq
-	// if((string)argv[2] == "--dir"){
-	// 	// string file_name = get_file((string)argv[3]);
-	// 	file_name = get_file();
-	// }
-	// if((string)argv[2] == "--input"){
-	// 	file_name = (string)argv[3];
-	// 	cout << "File Name: " + file_name << endl; 
-	// }
+	string input_file_name, output_file_name;
 
 	if((string)argv[1] == "--compressor"){
-		system("clear");
+		get_informed_file(argc, argv, input_file_name, output_file_name);
+		cout << "Continue? Press any key..." << getchar(); 
+
 		cout << "Starting the compression!!" << endl << endl;
-		cout << "Finding Frequency..." << endl;
-		if(find_frequency(file_name, frequency, variety, file_size)) return 0;
+		if(find_frequency(input_file_name, frequency, variety, file_size)) return 0;
 
 		Huff *huffman_tree = new Huff[(2*variety) - 1];
 
@@ -51,7 +49,6 @@ int main(int argc, char **argv){
 		// cout << endl << endl;
 		cout << "done!" << endl;
 
-		cout << "Building the heap and the Tree...";
 		build_huffman_tree(huffman_tree, variety);
 		cout << "done!" << endl;
 		// cout << endl << endl;
@@ -60,8 +57,12 @@ int main(int argc, char **argv){
 		for(int i = 0; i < (2*variety) - 1; i++) print_huff(huffman_tree[i], i);
 		cout << endl;
 
-		cout << "Building a output file...";
-		if(writing(huffman_tree, file_name, variety, file_size)) cout << "...Done!" << endl;
+		if(writing(
+			huffman_tree, 
+			input_file_name,
+			output_file_name, 
+			variety, 
+			file_size)) cout << "...Done!" << endl;
 	}
 
 	if((string)argv[1] == "--decompressor") cout << "COMMING SOON" << endl;
