@@ -76,7 +76,5 @@ int main(int argc, char **argv){
 		cout << "Command not found, please try --help or -h to find out more...\n";
 	}
 
-	
-
 	return 0;
 }

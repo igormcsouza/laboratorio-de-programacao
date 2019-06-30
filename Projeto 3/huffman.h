@@ -138,13 +138,17 @@ void BFS(string code[256], string &aux, Huff *huffman_tree, int i){
 */
 void codify(string code[256], Huff *huffman_tree, int variety){
     string aux;
-
     BFS(code, aux, huffman_tree, 2 * variety - 2);
 
-    for (int i = 0; i < 256; i++)
-        if(!code[i].empty()) cout << "B: " << (unsigned char)i << " C: " << code[i] << endl;
+    // for (int i = 0; i < 256; i++)
+    //     if(!code[i].empty()) cout << "B: " << (unsigned char)i << " C: " << code[i] << endl;
 }
 
+/* Escreve o arquivo de saida compactado
+* Recebe: Arvore de Huffman, nomes dos arquivos de saída e entrada, a variedade e o tamanho do
+*         arquivo original.
+* Retorna: Booleano que confirma se a operação deu erro ou não.
+*/
 bool writing(
     Huff *huffman_tree, 
     string input_file_name, 
