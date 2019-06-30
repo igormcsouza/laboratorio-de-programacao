@@ -158,15 +158,16 @@ bool writing(Huff *huffman_tree, string file_name, int variety, int file_size){
     unsigned count = 0;
     while(!in.eof()){
         b = in.get();
-        for (unsigned int i = 0; i < code[b].size(); i++)
-            buffer <<= code[b][i]; // Make room for next bit.
-            if (b) buffer |= 1; // Set if necessary.
+        for (unsigned int i = 0; i < code[b].size(); i++){
+            buffer <<= 1; // Make room for next bit.
+            if (code[b][i]) buffer |= 1; // Set 1 if necessary.
             count++; // Remember we have added a bit.
             if (count == 8) {
                 out.write((char *)&buffer, sizeof(buffer)); // Error handling elided.
                 buffer = 0;
                 count = 0;
             }
+        }
     }
     
     in.close();
