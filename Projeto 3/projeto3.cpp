@@ -11,10 +11,10 @@ using namespace std;
 
 void help_list(){
 	cout << "Do you need some HELP! Let me give you a hand!" << endl << endl;
-	cout << "--compressor             : Compress any file at any folder" << endl;
-	cout << "--decompressor           : Decompress .igr files" << endl;
-	cout << "--input or -i file_name  : Specify input file, inside the input folder" << endl;
-	cout << "--output or -o file_name : Specify output file, on the output folder" << endl;
+	cout << "--compressor              : Compress any file at any folder" << endl;
+	cout << "--decompressor            : Decompress .igr files" << endl;
+	cout << "*--input or -i file_name  : Specify input file, whether compress or not" << endl;
+	cout << "*--output or -o file_name : Specify output file, must use .igr if compression" << endl;
 	cout << endl;
 	cout << "*Those above are not necessary, but if do, must be together" << endl;
 }
@@ -29,7 +29,9 @@ int main(int argc, char **argv){
     for (int i = 0; i < 256; i++) frequency[i] = 0;
 	string input_file_name, output_file_name;
 
-	if((string)argv[1] == "--help" || (string)argv[1] == "-h"){
+	if(argc == 1){
+		cout << "Please, enter a valid command, --help or -h can be useful!\n";
+	} else if((string)argv[1] == "--help" || (string)argv[1] == "-h"){
 		help_list();
 		return 0;
 
@@ -53,7 +55,7 @@ int main(int argc, char **argv){
 		// cout << endl << endl;
 
 		cout << "Huffman Tree Built Succesfully!" << endl;
-		for(int i = 0; i < (2*variety) - 1; i++) print_huff(huffman_tree[i], i);
+		// for(int i = 0; i < (2*variety) - 1; i++) print_huff(huffman_tree[i], i);
 		cout << endl;
 
 		if(writing(
@@ -69,9 +71,9 @@ int main(int argc, char **argv){
 
 		cout << "Reading the compressed file and reconstructing a original file..." << endl;
 		if(reading(input_file_name, output_file_name)) cout << "...Done!" << endl;
-		
+
 	} else {
-		cout << "Command not found, please try --help or -h to find out more...";
+		cout << "Command not found, please try --help or -h to find out more...\n";
 	}
 
 	
