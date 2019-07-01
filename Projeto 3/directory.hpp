@@ -48,20 +48,20 @@ void get_informed_file(int argc, char **argv, string &input_file_name, string &o
         cout << "Input File Name: " + input_file_name << endl; 
 
         if(argc >= 6 && ((string)argv[4] == "--output" || (string)argv[4] == "-o"))
-            output_file_name = "outputs/" + (string)argv[5];
-        else output_file_name = "outputs/out.igr";
+            output_file_name = "middles/" + (string)argv[5];
+        else output_file_name = "middles/out.igr";
         cout << "Output File Name: " + output_file_name << endl;
     }
 
     if((string)argv[1] == "--decompressor"){
         if(argc >= 4 && ((string)argv[2] == "--input" || (string)argv[2] == "-i"))
-            input_file_name = "outputs/" + (string)argv[3];
-        else input_file_name = get_file("outputs/");
+            input_file_name = "middles/" + (string)argv[3];
+        else input_file_name = get_file("middles/");
         cout << "Input File Name: " + input_file_name << endl; 
 
         if(argc >= 6 && ((string)argv[4] == "--output" || (string)argv[4] == "-o"))
-            output_file_name = "inputs/" + (string)argv[5];
-        else output_file_name = "inputs/out.txt";
+            output_file_name = "outputs/" + (string)argv[5];
+        else output_file_name = "outputs/out.txt";
         cout << "Output File Name: " + output_file_name << endl;
     }
 }
