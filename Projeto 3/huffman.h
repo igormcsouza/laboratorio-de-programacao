@@ -144,6 +144,13 @@ void codify(string code[256], Huff *huffman_tree, int variety){
     //     if(!code[i].empty()) cout << "B: " << (unsigned char)i << " C: " << code[i] << endl;
 }
 
+void print_byte_as_bits(char val) {
+  for (int i = 7; 0 <= i; i--) {
+    printf("%c", (val & (1 << i)) ? '1' : '0');
+  }
+  cout << endl;
+}
+
 /* Escreve o arquivo de saida compactado
 * Recebe: Arvore de Huffman, nomes dos arquivos de saída e entrada, a variedade e o tamanho do
 *         arquivo original.
@@ -158,15 +165,16 @@ bool writing(
 
     cout << "Building a output file..." << endl;
     int tree_size = (2*variety) - 1;
-    uint8_t variety_ = variety - 1;
+    uint8_t variety_ = (uint8_t)variety - 1;
     std::ofstream out(output_file_name, ios::binary);
 
     out.write((char*)&variety_, sizeof(variety_));
-    out.write((char*)huffman_tree, tree_size * sizeof(huffman_tree));
+    out.write((char*)huffman_tree, tree_size * sizeof(Huff));
     out.write((char*)&file_size, sizeof(file_size));
 
     // Writing the file folowing the huffman tree
     std::ifstream in(input_file_name, ios::binary);
+    std::cout << "IS NOT EMPTY?" << !in.eof() << endl;
     string code[256];
 
     codify(code, huffman_tree, variety);
@@ -182,6 +190,7 @@ bool writing(
                 buffer |= 1; // Se for 1, altera.
             count++; // Quando chegar 8, grava.
             if (count == 8) {
+                // print_byte_as_bits(b);
                 out.write((char*)&buffer, sizeof(buffer));
                 buffer = 0;
                 count = 0;
@@ -195,10 +204,11 @@ bool writing(
         out.write((char*)&buffer, sizeof(buffer));
     }
     
-    in.close();
-    out.close();
+    in.close(); out.close();
     return true;
 }
+
+// DECOMPRESSOR ------------------------------------------------------------------------------
 
 bool getBit(unsigned char byte, int position){
     return (byte >> position) & 0x1;
@@ -211,7 +221,7 @@ bool reading(string input_file_name, string output_file_name) {
     uint8_t variety; in.read((char*)&variety, sizeof(uint8_t)); // Numero de ocorrencias
     int tree_size = 2 * (variety + 1) - 1;
     Huff *huffman_tree = new Huff[tree_size];
-    in.read((char *)&huffman_tree, tree_size * sizeof(huffman_tree));
+    in.read((char *)huffman_tree, tree_size * sizeof(Huff));
 
     // string code[256];
     // codify(code, huffman_tree, variety);
@@ -233,13 +243,12 @@ bool reading(string input_file_name, string output_file_name) {
             if (position == 8){ byte = in.get(); position = 0; }
         } else {
             out.write((char *)&root->character, sizeof(root->character));
-            root = huffman_tree + (tree_size) - 1;
+            root = huffman_tree + (tree_size - 1);
             written_bytes++;
         }
     }
     
-    in.close();
-    out.close();
+    in.close(); out.close();
     return true; 
 }
 
