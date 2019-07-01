@@ -67,7 +67,7 @@ int main(int argc, char **argv){
 	
 	} else if((string)argv[1] == "--decompressor"){
 		get_informed_file(argc, argv, input_file_name, output_file_name);
-		cout << "Continue? Press any key..." << getchar(); 
+		cout << "Continue? Press any key..." << endl; getchar(); 
 
 		cout << "Reading the compressed file and reconstructing a original file..." << endl;
 		if(reading(input_file_name, output_file_name)) cout << "...Done!" << endl;
