@@ -210,9 +210,7 @@ bool writing(
 
 // DECOMPRESSOR ------------------------------------------------------------------------------
 
-bool getBit(unsigned char byte, int position){
-    return (byte >> position) & 0x1;
-}
+bool getBit(unsigned char byte, int position){ return (byte >> position) & 0x1; }
 
 // Em fase de teste, ou seja, não está pronta!!
 bool reading(string input_file_name, string output_file_name) { 
