@@ -44,15 +44,15 @@ void fix_branch(No *heap, int i, int size){
         swap_no(heap[i], heap[min]);
         fix_branch(heap, min, size);                                             
     }
-    print_No(heap[i]); print_No(heap[2*i+1]); print_No(heap[2*i+2]); std::cout << std::endl;
+    // print_No(heap[i]); print_No(heap[2*i+1]); print_No(heap[2*i+2]); std::cout << std::endl;
 }
 
 void heapfy(No *heap, int last){
-    int i = 0;
-    while(i < last/2){
-        // std::cout << "HEAP: " << 2*i+2 << "LAST: " << last;
-        fix_branch(heap, i, last); i++;
+    for(int i = last/2; i >=0; i--){
+        // std::cout << "HEAP: " << i << "LAST: " << last;
+        fix_branch(heap, i, last);
     }
+    // for(int i = 0; i<last; i++) { print_No(heap[i]); std::cout << std::endl; }
 }
 
 /* Recebe: Array Heap

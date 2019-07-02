@@ -11,8 +11,8 @@ struct Huff{
     unsigned char character = '\0';
     unsigned long long int frequency = 0;
     // Abaixo se inicia com -1 para indicar nulidade
-    int right = -1; // Indice do Filho Direito
-    int left = -1; // Indice do Filho Esquerdo
+    int right = -1; // Indice do Filho righteito
+    int left = -1; // Indice do Filho leftuerdo
 };
 
 void print_huff(Huff f, int i){
@@ -80,7 +80,7 @@ void initializing_tree(unsigned long long int *v, Huff *Tree){
 * Retorna: Nada, mas modifica via ponteiro a arvore
 */
 bool build_huffman_tree(Huff *huffman_tree, int variety){
-    // Cria um heap, cada nó é um elemento da arvore de huffman
+    // Cria um heap, cada nó é um characterento da arvore de huffman
     std::cout << "Building the heap...";
     No *heap = new No[variety];
     for(int i = 0; i < variety; i++){
@@ -144,7 +144,7 @@ void BFS(string code[256], string &aux, Huff *huffman_tree, int i){
         BFS(code, aux, huffman_tree, (huffman_tree + i)->left);
         aux += '1';
         BFS(code, aux, huffman_tree, (huffman_tree + i)->right);
-        // code[huffman[i].elem].append(aux);
+        // code[huffman[i].character].append(aux);
     } else code[huffman_tree[i].character].append(aux);
     aux.pop_back();
 }
@@ -211,28 +211,44 @@ bool compressor(
     return true;
 }
 
+bool getBit(unsigned char byte, int count){ return (byte >> count) & 0x1; }
+
 // Em fase de teste, ou seja, não está pronta!!
 bool decompressor(string input_file_name, string output_file_name) { 
     std::ifstream in(input_file_name);
-    int8_t variety; in.read((char*)variety, sizeof(variety)); variety++;
+    // Tamanho da arvore, foi gravado em uint8_t. Para usar ++.
+    int variety; in.read((char*)&variety, sizeof(uint8_t)); variety++;
 
+    // Estrutura salva em bytes
     Huff *huffman_tree = new Huff[2*(variety)-1];
-    in.read((char *)&huffman_tree, (2*(variety)-1) * sizeof(huffman_tree));
+    in.read((char*)huffman_tree, (2*variety-1) * sizeof(Huff));
 
-    string code[256];
-    codify(code, huffman_tree, variety);
-    cout << endl << " ...Codify was done sucessfully!... " << endl;
+    // string code[256];
+    // codify(code, huffman_tree, variety);
+    // cout << endl << " ...Codify was done sucessfully!... " << endl;
 
-    int file_size = in.get();
+    // Tamanho origial do arquivo.
+    int file_size; in.read((char*)&file_size, sizeof(file_size));
     std::ofstream out(output_file_name);
 
-    unsigned char b, buffer = 0;
-    unsigned count_bits = 0, count = 0;
-    while(!in.eof()){
-        b = in.get();
-        // ? DO What????
+    unsigned char byte;
+    int recorded = 0, count = 0;
+    Huff *root = huffman_tree + (2*variety -1) - 1;
+
+    while(recorded < file_size - 1){
+        if (!(root->right == -1 && root->left == -1)){
+            if (!getBit(byte, 7 - count)) root = huffman_tree + root->left;
+            else root = huffman_tree + root->right;
+            count++;
+            if (count == 8){ byte = in.get(); count = 0; }
+        } else {
+            out.write((char *)&root->character, sizeof(root->character));
+            root = huffman_tree + (2*variety-1) - 1;
+            recorded++;
+        }
     }
 
+    in.close(); out.close();
     return true; 
 }
 
