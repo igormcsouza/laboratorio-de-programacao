@@ -158,11 +158,11 @@ bool writing(
 
     cout << "Building a output file..." << endl;
     int tree_size = (2*variety) - 1;
-    int variety_ = (int8_t)variety - 1;
+    int8_t variety_ = (int8_t)variety - 1;
     std::ofstream out(output_file_name, ios::binary);
 
     out.write((char*)&variety_, sizeof(variety_));
-    out.write((char*)huffman_tree, tree_size * sizeof(huffman_tree));
+    out.write((char*)huffman_tree, tree_size * sizeof(Huff));
     out.write((char*)&file_size, sizeof(file_size));
 
     // Writing the file folowing the huffman tree
@@ -178,7 +178,7 @@ bool writing(
         b = in.get();
         for (unsigned int i = 0; i < code[b].size(); i++){
             buffer <<= 1; // Make room for next bit.
-            if (code[b][i]) buffer |= 1; // Set 1 if necessary.
+            if (code[b][i] == '1') buffer |= 1; // Set 1 if necessary.
             count++; // Remember we have added a bit.
             if (count == 8) {
                 out.write((char*)&buffer, sizeof(buffer)); // writing code
@@ -186,6 +186,8 @@ bool writing(
             }
         }
     }
+    // Caso nem todos os bits sejam gravados, grava o que sobrou
+    if (count != 0) { buffer <<= (8 - count); out.write((char*)&buffer, sizeof(buffer));}
     
     in.close();
     out.close();
