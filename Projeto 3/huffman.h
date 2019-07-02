@@ -221,6 +221,8 @@ bool reading(string input_file_name, string output_file_name) {
     Huff *huffman_tree = new Huff[tree_size];
     in.read((char *)huffman_tree, tree_size * sizeof(Huff));
 
+    for(int i = 0; i<tree_size; i++) print_huff(huffman_tree[i], i);
+
     // string code[256];
     // codify(code, huffman_tree, variety);
     // cout << endl << " ...Codify was done sucessfully!... " << endl;
