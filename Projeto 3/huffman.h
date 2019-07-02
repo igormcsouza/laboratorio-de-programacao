@@ -23,6 +23,18 @@ void print_huff(Huff f, int i){
     << f.left << "|" << std::endl;
 }
 
+// Be sure a Arvore de Huffman está realmente como deveria!
+bool is_huffman_tree(Huff *huff, int variety){
+    for(int i = variety; i < 2*variety; i++)
+        if(huff[i].frequency > huff[i+1].frequency){
+            cout << "ERRO at huffman tree idx " << i << endl;
+            print_huff(huff[i], i);
+            print_huff(huff[i+1], i+1);
+            return false;
+        }
+    return true;
+}
+
 bool find_frequency(
     string file_name, 
     unsigned long long int *frequencia, 
@@ -67,20 +79,22 @@ void initializing_tree(unsigned long long int *v, int variety, Huff *Tree){
 * Cria, apartir das folhas de Huffman a arvore de Huffman
 * Retorna: Nada, mas modifica via ponteiro a arvore
 */
-void build_huffman_tree(Huff *huffman_tree, int last_position){
+bool build_huffman_tree(Huff *huffman_tree, int variety){
     // Cria um heap, cada nó é um elemento da arvore de huffman
-    std::cout << "Building the heap and the Tree...";
-    No *heap = new No[last_position];
-    for(int i = 0; i < last_position; i++){
+    std::cout << "Building the heap...";
+    No *heap = new No[variety];
+    for(int i = 0; i < variety; i++){
         heap[i].weight = huffman_tree[i].frequency;
         heap[i].idx = i;
     }
     
     // Organiza a arvore para ser um heap
-    heapfy(heap, 0, last_position);
+    heapfy(heap, variety); if(!is_min_heap(heap, variety)) std::cout << "ERRO.\n";
     No *min = new No[2]; // Vetor-extração dos minimos
-    int count = last_position; // Contar para acompanhar o tamanho da heap
+    int count = variety; // Contar para acompanhar o tamanho da heap
+    int original_variety = variety;
 
+    std::cout << "Building the Huffman Tree...\n";
     // Still a bug! The final tree isn't as expected
     while(count > 1){
         // Extrai os 2 primeiros (A função extração ajeita a heap tbm)
@@ -88,22 +102,24 @@ void build_huffman_tree(Huff *huffman_tree, int last_position){
         min[1] = remove_min(heap, count);
 
         // Cria o novo no artificial na arvore de huffman
-        huffman_tree[last_position].frequency = min[0].weight + min[1].weight;
-        huffman_tree[last_position].left = min[0].idx; 
-        huffman_tree[last_position].right = min[1].idx;
-        last_position++; // Incremento a arvore de huffman para receber o no artificial
+        huffman_tree[variety].frequency = min[0].weight + min[1].weight;
+        huffman_tree[variety].left = min[0].idx; 
+        huffman_tree[variety].right = min[1].idx;
+        variety++; // Incremento a arvore de huffman para receber o no artificial
 
         // print_Folha(huffman[last-1], last-1);
         // print_No(min[0]); print_No(min[1]);
         // pause; 
 
         ++count; // Coloca esse nó artificial na heap.
-        heap[count].idx = last_position-1;
-        heap[count].weight = huffman_tree[last_position-1].frequency;
+        heap[count].idx = variety-1;
+        heap[count].weight = huffman_tree[variety-1].frequency;
         // print_No(heap[count]);
-        heapfy(heap, 0, count); // Ajeita a heap
+        heapfy(heap, count); // Ajeita a heap
         // std::cout << std::endl;
     }
+
+    return is_huffman_tree(huffman_tree, original_variety);
 }
 
 /* Aqui se inicia de fato a compressão e também a decompressão. Após ter a árvore pronta, o que

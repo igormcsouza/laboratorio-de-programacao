@@ -10,6 +10,24 @@ void print_No(No no){
     std::cout << "No: " <<no.weight << ", " << no.idx << "|";
 }
 
+// Be sure a Heap está realmente mínima!
+bool is_min_heap(No *heap, int last_position){
+    for(int i = 0; i<last_position; i++)
+        if(heap[i].weight > heap[2*i+1].weight || heap[i].weight > heap[2*i+2].weight){
+            print_No(heap[i]); 
+            print_No(heap[2*i+1]); print_No(heap[2*i+2]);
+            return false;
+        }
+    return true;
+}
+
+void swap_no(No &a, No &b){
+    No aux;
+    aux.weight = a.weight; aux.idx = a.idx;
+    a.weight = b.weight; a.idx = b.idx;  
+    b.weight = aux.weight; b.idx = aux.idx;
+}
+
 /* Recebe: Heap desorganizada
 * Constroi a heap, de forma que o mínimo fica na raiz e os filhos
 * são sempre maiores que o pai.
@@ -17,21 +35,25 @@ void print_No(No no){
 * se não chama pro filho...
 * Retorna: nada, pois trata-se de edição em ponteiros
 */
-void heapfy(No *heap, int i, int last){
-    No aux;
+void fix_branch(No *heap, int i, int size){
+    int min = i;
+    if(heap[i].weight >= heap[(2*i) + 1].weight && (2*i) + 1 < size){
+        min = (2*i) + 1;
+    }
+    if(heap[min].weight >= heap[(2*i) + 2].weight && (2*i) + 2 < size){
+        min = (2*i) + 2;
+    }
+    if(min != i) {
+        swap_no(heap[min], heap[i]);
+        fix_branch(heap, min, size);
+    }
+}
+
+void heapfy(No *heap, int last){
+    int i = 0;
     while(i < last/2){
-        if(heap[i].weight > heap[(2*i) + 1].weight){
-            aux.weight = heap[i].weight; aux.idx = heap[i].idx;
-            heap[i].weight = heap[(2*i) + 1].weight; heap[i].idx = heap[(2*i) + 1].idx;  
-            heap[(2*i) + 1].weight = aux.weight; heap[(2*i) + 1].idx = aux.idx;
-        }
-        if(heap[i].weight > heap[(2*i) + 2].weight){
-            aux.weight = heap[i].weight; aux.idx = heap[i].idx;
-            heap[i].weight = heap[(2*i) + 2].weight; heap[i].idx = heap[(2*i) + 2].idx;  
-            heap[(2*i) + 2].weight = aux.weight; heap[(2*i) + 2].idx = aux.idx;
-        }
-        heapfy(heap, (2*i) + 1, last);
-        i = (2*i) + 2;
+        // std::cout << "HEAP: " << 2*i+2 << "LAST: " << last;
+        fix_branch(heap, i, last); i++;
     }
 }
 
@@ -43,7 +65,7 @@ No remove_min(No *heap, int &last){
     No min = heap[0];
     heap[0] = heap[last];
     --last;
-    heapfy(heap, 0, last);
+    heapfy(heap, last);
     return min;
 }
 

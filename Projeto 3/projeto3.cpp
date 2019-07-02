@@ -50,8 +50,11 @@ int main(int argc, char **argv){
 		// cout << endl << endl;
 		cout << "done!" << endl;
 
-		build_huffman_tree(huffman_tree, variety);
-		cout << "done!" << endl;
+		if(build_huffman_tree(huffman_tree, variety)) cout << "done!" << endl;
+		else{
+			cout << "ERRO, huffman tree is not as expected...\n";
+			return 3;
+		}
 		// cout << endl << endl;
 
 		cout << "Huffman Tree Built Succesfully!" << endl;
