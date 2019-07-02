@@ -40,7 +40,12 @@ int main(int argc, char **argv){
 		cout << "Continue? Press any key..." << endl; getchar(); 
 
 		cout << "Starting the compression!!" << endl << endl;
-		if(find_frequency(input_file_name, frequency, variety, file_size)) return 0;
+		if(find_frequency(input_file_name, frequency, variety, file_size)){
+			std::ofstream out(output_file_name, ios::binary);
+			out.close();
+			cout << "Building a output file..." << endl << "...Done!\n";
+			return 0;
+		}
 
 		Huff *huffman_tree = new Huff[(2*variety) - 1];
 
