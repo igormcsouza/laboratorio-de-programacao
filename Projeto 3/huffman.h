@@ -217,11 +217,12 @@ bool getBit(unsigned char byte, int count){ return (byte >> count) & 0x1; }
 bool decompressor(string input_file_name, string output_file_name) { 
     std::ifstream in(input_file_name);
     // Tamanho da arvore, foi gravado em uint8_t. Para usar ++.
-    int variety; in.read((char*)&variety, sizeof(uint8_t)); variety++;
+    uint8_t variety; in.read((char*)&variety, sizeof(uint8_t));
+    int tree_size = 2 * (variety + 1) -1;
 
     // Estrutura salva em bytes
-    Huff *huffman_tree = new Huff[2*(variety)-1];
-    in.read((char*)huffman_tree, (2*variety-1) * sizeof(Huff));
+    Huff *huffman_tree = new Huff[tree_size];
+    in.read((char*)huffman_tree, tree_size * sizeof(Huff));
 
     // string code[256];
     // codify(code, huffman_tree, variety);
@@ -233,7 +234,7 @@ bool decompressor(string input_file_name, string output_file_name) {
 
     unsigned char byte;
     int recorded = 0, count = 0;
-    Huff *root = huffman_tree + (2*variety -1) - 1;
+    Huff *root = huffman_tree + tree_size - 1;
 
     while(recorded < file_size - 1){
         if (!(root->right == -1 && root->left == -1)){
@@ -243,8 +244,7 @@ bool decompressor(string input_file_name, string output_file_name) {
             if (count == 8){ byte = in.get(); count = 0; }
         } else {
             out.write((char *)&root->character, sizeof(root->character));
-            root = huffman_tree + (2*variety-1) - 1;
-            recorded++;
+            root = huffman_tree + tree_size - 1; recorded++;
         }
     }
 
