@@ -58,7 +58,7 @@ int main(int argc, char **argv){
 		// for(int i = 0; i < (2*variety) - 1; i++) print_huff(huffman_tree[i], i);
 		cout << endl;
 
-		if(writing(
+		if(compressor(
 			huffman_tree, 
 			input_file_name,
 			output_file_name, 
@@ -70,7 +70,7 @@ int main(int argc, char **argv){
 		cout << "Continue? Press any key..." << getchar(); 
 
 		cout << "Reading the compressed file and reconstructing a original file..." << endl;
-		if(reading(input_file_name, output_file_name)) cout << "...Done!" << endl;
+		if(decompressor(input_file_name, output_file_name)) cout << "...Done!" << endl;
 
 	} else {
 		cout << "Command not found, please try --help or -h to find out more...\n";
