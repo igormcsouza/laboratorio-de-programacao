@@ -149,7 +149,7 @@ void codify(string code[256], Huff *huffman_tree, int variety){
 *         arquivo original.
 * Retorna: Booleano que confirma se a operação deu erro ou não.
 */
-bool writing(
+bool compressor(
     Huff *huffman_tree, 
     string input_file_name, 
     string output_file_name, 
@@ -195,7 +195,7 @@ bool writing(
 }
 
 // Em fase de teste, ou seja, não está pronta!!
-bool reading(string input_file_name, string output_file_name) { 
+bool decompressor(string input_file_name, string output_file_name) { 
     std::ifstream in(input_file_name);
     int8_t variety; in.read((char*)variety, sizeof(variety)); variety++;
 
