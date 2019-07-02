@@ -22,10 +22,7 @@ bool is_min_heap(No *heap, int last_position){
 }
 
 void swap_no(No &a, No &b){
-    No aux;
-    aux.weight = a.weight; aux.idx = a.idx;
-    a.weight = b.weight; a.idx = b.idx;  
-    b.weight = aux.weight; b.idx = aux.idx;
+    No aux = a; a = b; b = aux;
 }
 
 /* Recebe: Heap desorganizada
@@ -44,9 +41,10 @@ void fix_branch(No *heap, int i, int size){
         min = (2*i) + 2;
     }
     if(min != i) {
-        swap_no(heap[min], heap[i]);
-        fix_branch(heap, min, size);
+        swap_no(heap[i], heap[min]);
+        fix_branch(heap, min, size);                                             
     }
+    print_No(heap[i]); print_No(heap[2*i+1]); print_No(heap[2*i+2]); std::cout << std::endl;
 }
 
 void heapfy(No *heap, int last){

@@ -25,7 +25,7 @@ void print_huff(Huff f, int i){
 
 // Be sure a Arvore de Huffman está realmente como deveria!
 bool is_huffman_tree(Huff *huff, int variety){
-    for(int i = variety; i < 2*variety; i++)
+    for(int i = variety; i < 2*variety-2; i++)
         if(huff[i].frequency > huff[i+1].frequency){
             cout << "ERRO at huffman tree idx " << i << endl;
             print_huff(huff[i], i);
@@ -65,9 +65,9 @@ bool find_frequency(
 }
 
 // Ocupa a arvore principal com os nós todos folhas a princípio
-void initializing_tree(unsigned long long int *v, int variety, Huff *Tree){
+void initializing_tree(unsigned long long int *v, Huff *Tree){
     int j = 0;
-    for(int i = 0; i < variety; i++)
+    for(int i = 0; i < 256; i++)
         if(v[i] != 0){
             Tree[j].character = i;
             Tree[j].frequency = v[i];
@@ -86,6 +86,7 @@ bool build_huffman_tree(Huff *huffman_tree, int variety){
     for(int i = 0; i < variety; i++){
         heap[i].weight = huffman_tree[i].frequency;
         heap[i].idx = i;
+        // print_No(heap[i]); std::cout << std::endl;
     }
     
     // Organiza a arvore para ser um heap
@@ -116,7 +117,7 @@ bool build_huffman_tree(Huff *huffman_tree, int variety){
         heap[count].weight = huffman_tree[variety-1].frequency;
         // print_No(heap[count]);
         heapfy(heap, count); // Ajeita a heap
-        // std::cout << std::endl;
+        // std::cout << variety << std::endl;
     }
 
     return is_huffman_tree(huffman_tree, original_variety);

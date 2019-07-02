@@ -44,14 +44,15 @@ int main(int argc, char **argv){
 
 		Huff *huffman_tree = new Huff[(2*variety) - 1];
 
-		initializing_tree(frequency, 256, huffman_tree); 
+		initializing_tree(frequency, huffman_tree); 
 		cout << "Original Tree...";
-		// for(int i = 0; i < n; i++)  print_Folha(List[i], i);
+		// for(int i = 0; i < 2*variety - 1; i++) print_huff(huffman_tree[i], i);
 		// cout << endl << endl;
 		cout << "done!" << endl;
 
 		if(build_huffman_tree(huffman_tree, variety)) cout << "done!" << endl;
 		else{
+			for(int i = 0; i < 2*variety - 1; i++) print_huff(huffman_tree[i], i);
 			cout << "ERRO, huffman tree is not as expected...\n";
 			return 3;
 		}
