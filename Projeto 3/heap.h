@@ -10,6 +10,14 @@ void print_No(No no){
     std::cout << "No: " <<no.weight << ", " << no.idx << "|";
 }
 
+// Change positions on a pointer array
+void swap(No &a, No &b){
+    No aux;
+    aux = a;
+    a = b;
+    b = aux;
+}
+
 /* Recebe: Heap desorganizada
 * Constroi a heap, de forma que o mínimo fica na raiz e os filhos
 * são sempre maiores que o pai.
@@ -17,22 +25,24 @@ void print_No(No no){
 * se não chama pro filho...
 * Retorna: nada, pois trata-se de edição em ponteiros
 */
-void heapfy(No *heap, int i, int last){
-    No aux;
-    while(i < last/2){
-        if(heap[i].weight > heap[(2*i) + 1].weight){
-            aux.weight = heap[i].weight; aux.idx = heap[i].idx;
-            heap[i].weight = heap[(2*i) + 1].weight; heap[i].idx = heap[(2*i) + 1].idx;  
-            heap[(2*i) + 1].weight = aux.weight; heap[(2*i) + 1].idx = aux.idx;
-        }
-        if(heap[i].weight > heap[(2*i) + 2].weight){
-            aux.weight = heap[i].weight; aux.idx = heap[i].idx;
-            heap[i].weight = heap[(2*i) + 2].weight; heap[i].idx = heap[(2*i) + 2].idx;  
-            heap[(2*i) + 2].weight = aux.weight; heap[(2*i) + 2].idx = aux.idx;
-        }
-        heapfy(heap, (2*i) + 1, last);
-        i = (2*i) + 2;
+void minHeapify(No *heap, int i, int tamanho){
+    int l = 2 * i + 1;
+    int r = 2 * i + 2;
+    int min = i;
+
+    if (l < tamanho && heap[l].weight <= heap[i].weight)
+        min = l;
+    if (r < tamanho && heap[r].weight <= heap[min].weight)
+        min = r;
+    if (min != i){
+        swap(heap[i], heap[min]);
+        minHeapify(heap, min, tamanho);
     }
+}
+
+void heapfy(No *heap, int tamanho){
+    for(int i = tamanho / 2; i >= 0; i--)
+        minHeapify(heap, i, tamanho);
 }
 
 /* Recebe: Array Heap
@@ -40,11 +50,9 @@ void heapfy(No *heap, int i, int last){
 * Retorna: No mínimo
 */
 No remove_min(No *heap, int &last){
-    No min = heap[0];
-    heap[0] = heap[last];
-    --last;
-    heapfy(heap, 0, last);
-    return min;
+    swap(heap[0], heap[last - 1]);
+    --last; heapfy(heap, last);
+    return heap[last];
 }
 
 #endif
