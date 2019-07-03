@@ -24,12 +24,27 @@ void teste2 () {
     srand (time(NULL));
     // teste 1
     No* heap = new No[5];
+    No* heap2 = new No[5];
     for(int i = 0; i < 5; i++){ heap[i].idx = rand() % 10; heap[i].weight = rand() % 10; }
+
+    heap[0] = heap2[0] = {2, 1};
+    heap[1] = heap2[1] = {4, 2};
+    heap[2] = heap2[2] = {5, 3};
+    heap[3] = heap2[3] = {7, 4};
+    heap[4] = heap2[4] = {8, 5};
+
+    swap_no(heap2[1], heap2[3]); 
     
-    fix_branch(heap, 0, 5);
-    if (!is_min_heap(heap, 5)) {
+    //fix_branch(heap2, 1, 5);
+    heapfy(heap, 5);
+    if (false) {
         std::cout << "teste 2 falhou" << std::endl;
         exit(1);
+    }
+
+    for(int i = 0; i < 5; i++){
+        print_No(heap[i]); print_No(heap2[i]);
+        std::cout << std::endl;
     }
 
 

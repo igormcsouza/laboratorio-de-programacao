@@ -12,7 +12,7 @@ void print_No(No no){
 
 // Be sure a Heap está realmente mínima!
 bool is_min_heap(No *heap, int last_position){
-    for(int i = 0; i<last_position; i++)
+    for(int i = 0; i<last_position/2; i++)
         if(heap[i].weight > heap[2*i+1].weight || heap[i].weight > heap[2*i+2].weight){
             print_No(heap[i]); 
             print_No(heap[2*i+1]); print_No(heap[2*i+2]);
