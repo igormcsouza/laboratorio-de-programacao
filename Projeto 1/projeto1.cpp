@@ -1,19 +1,45 @@
 //g++ -Wall -Wextra -std=c++17 -pedantic -o projeto1 projeto1.cpp
 
 #include <iostream>
+#include <fstream>
+#include <string>
 #include "ordenacao.h"
 
 using namespace std;
 
-int main(){
+void helpList(){
+	cout << "Do you need some Help? Try the commands below:" << endl;
+	cout << "--size or -s  : Size of the random vector" << endl;
+	cout << "--input or -i : Location of the input vector" << endl;
+}
+
+int main(int argc, char **argv){
 	int tam = 1000;
 	int variedade = 1000;
 	bool keep = true;
+	int *v;
 
 	while(keep){
-		system("clear");
-
-		int *v = vetor_aleatorio(tam, variedade);
+		if(argc > 3 || argc < 2) {
+			helpList();
+			return 0;
+		}
+		if((string)argv[1] == "--size" || (string)argv[1] == "-s"){
+			tam = atoi(argv[2]);
+			cout << "Tamanho do Vetor: " << tam << ", Variedades: " << variedade << endl;
+			v = vetor_aleatorio(tam, variedade);
+		} else if((string)argv[1] == "--input" || (string)argv[1] == "-i"){
+			ifstream file;
+			file.open((string)argv[2]);
+			if(file.peek() == std::ifstream::traits_type::eof()){
+				cout << "Arquivo Vazio ou Inexistente!\n"; file.close(); return 0;
+			}
+			file >> tam; 
+			cout << "Tamanho do Vetor: " << tam << endl;
+			v = new int[tam];
+			for(int i = 0; i < tam; i++) file >> v[i];
+			file.close();
+		}
 
 		cout << "Before: ";
 		for(int i=0; i<tam; i++){ cout << *(v + i) << " "; }
