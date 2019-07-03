@@ -29,13 +29,15 @@ int main(int argc, char **argv){
 			cout << "Tamanho do Vetor: " << tam << ", Variedades: " << variedade << endl;
 			v = vetor_aleatorio(tam, variedade);
 		} else if((string)argv[1] == "--input" || (string)argv[1] == "-i"){
-			fstream file((string)argv[2], std::ios_base::in);
+			ifstream file;
+			file.open((string)argv[2]);
 			if(file.peek() == std::ifstream::traits_type::eof()){
 				cout << "Arquivo Vazio ou Inexistente!\n"; file.close(); return 0;
 			}
-			//file.read((char*)&tam, sizeof(int)); 
-			cout << "Tamanho do Vetor: " << tam << endl; getchar();
-			file.read((char*)v, tam*sizeof(int));
+			file >> tam; 
+			cout << "Tamanho do Vetor: " << tam << endl;
+			v = new int[tam];
+			for(int i = 0; i < tam; i++) file >> v[i];
 			file.close();
 		}
 
