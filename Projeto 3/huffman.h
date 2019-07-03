@@ -86,7 +86,7 @@ bool build_huffman_tree(Huff *huffman_tree, int variety){
     for(int i = 0; i < variety; i++){
         heap[i].weight = huffman_tree[i].frequency;
         heap[i].idx = i;
-        // print_No(heap[i]); std::cout << std::endl;
+        print_No(heap[i]); std::cout << std::endl;
     }
     
     // Organiza a arvore para ser um heap

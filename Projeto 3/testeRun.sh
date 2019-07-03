@@ -1,0 +1,1 @@
+g++ -Wall -Wextra -std=c++17 -pedantic -o teste tests/swap/test.cpp -I . && ./teste
