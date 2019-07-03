@@ -1,19 +1,38 @@
 //g++ -Wall -Wextra -std=c++17 -pedantic -o projeto1 projeto1.cpp
 
 #include <iostream>
+#include <fstream>
+#include <string>
 #include "ordenacao.h"
 
 using namespace std;
 
-int main(){
+void helpList(){
+	cout << "Do you need some Help? Try the commands below:" << endl;
+	cout << "--size or -s  : Size of the random vector" << endl;
+	cout << "--input or -i : Location of the input vector" << endl;
+}
+
+int main(int argc, char **argv){
 	int tam = 1000;
 	int variedade = 1000;
 	bool keep = true;
+	int *v;
 
 	while(keep){
 		system("clear");
 
-		int *v = vetor_aleatorio(tam, variedade);
+		if(argc > 3 || argc == 1) {
+			helpList();
+			return 0;
+		}else if((string)argv[2] == "--size" || (string)argv[2] == "-s"){
+			tam = 100; //atoi(argv[3]);
+			v = vetor_aleatorio(tam, variedade);
+		} else if((string)argv[2] == "--input" || (string)argv[2] == "-i"){
+			fstream file((string)argv[3]);
+			tam = file.get();
+			file.read((char*)v, tam*sizeof(int));
+		}
 
 		cout << "Before: ";
 		for(int i=0; i<tam; i++){ cout << *(v + i) << " "; }
