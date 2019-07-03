@@ -20,18 +20,23 @@ int main(int argc, char **argv){
 	int *v;
 
 	while(keep){
-		system("clear");
-
-		if(argc > 3 || argc == 1) {
+		if(argc > 3 || argc < 2) {
 			helpList();
 			return 0;
-		}else if((string)argv[2] == "--size" || (string)argv[2] == "-s"){
-			tam = 100; //atoi(argv[3]);
+		}
+		if((string)argv[1] == "--size" || (string)argv[1] == "-s"){
+			tam = atoi(argv[2]);
+			cout << "Tamanho do Vetor: " << tam << ", Variedades: " << variedade << endl;
 			v = vetor_aleatorio(tam, variedade);
-		} else if((string)argv[2] == "--input" || (string)argv[2] == "-i"){
-			fstream file((string)argv[3]);
-			tam = file.get();
+		} else if((string)argv[1] == "--input" || (string)argv[1] == "-i"){
+			fstream file((string)argv[2], std::ios_base::in);
+			if(file.peek() == std::ifstream::traits_type::eof()){
+				cout << "Arquivo Vazio ou Inexistente!\n"; file.close(); return 0;
+			}
+			//file.read((char*)&tam, sizeof(int)); 
+			cout << "Tamanho do Vetor: " << tam << endl; getchar();
 			file.read((char*)v, tam*sizeof(int));
+			file.close();
 		}
 
 		cout << "Before: ";
