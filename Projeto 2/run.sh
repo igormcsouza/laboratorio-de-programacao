@@ -1,0 +1,1 @@
+g++ -Wall -Wextra -std=c++17 -pedantic -o projeto2 projeto2.cpp && ./projeto2

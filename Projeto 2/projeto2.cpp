@@ -40,6 +40,26 @@ string benchmark(const char *texto, const char *padrao, int *bruta, int *kmP){
 	return "Não funcionou!! :'(";
 }
 
+void parameters(int &tamTexto, int &tamPadrao, int &variedade){
+	while (true){
+		cout << "Digite o Tamanho do Texto: "; cin >> tamTexto;
+		cout << "Digite o Tamanho do Padrão: "; cin >> tamPadrao;
+		if(tamPadrao > tamTexto){
+			cout << "O tamanho do TEXTO deve ser maior que o do PADRÃO!\n\n";
+		} else break;
+	}
+	while (true){
+		cout << "Digite o intevalo[1-26]: "; cin >> variedade;
+		if(1 > variedade || variedade > 26) cout << "O intervalo deve ser [1-26]\n\n";
+		else break;
+	}
+
+	cout << "\nIniciando o Teste --------------------------" << endl;
+	cout << "Tamanho do texto: " << tamTexto << endl;
+	cout << "Tamanho do Padrão: " << tamPadrao << endl;
+	cout << "Intervalo: " << variedade << endl;
+}
+
 // Tem que ver isso dai...
 int main(){
 	srand (time(NULL));
@@ -71,6 +91,7 @@ int main(){
 		if (opcao == 1){
 
 			cout << "\nTestes com instancias aleatorias\n";
+			parameters(tamTexto, tamPadrao, variedade);
 			texto = gerador_aleatorio(tamTexto, variedade);
 			padrao = gerador_aleatorio(tamPadrao, variedade);
 
@@ -83,6 +104,7 @@ int main(){
 		}
 		if (opcao == 2){
 			cout << "\nTestes com instancias de pior caso 1\n";
+			parameters(tamTexto, tamPadrao, variedade);
 			texto = gerador_pior_caso_1(tamTexto);
 			padrao = gerador_pior_caso_1(tamPadrao);
 
@@ -95,6 +117,7 @@ int main(){
 		}
 		if (opcao == 3){
 			cout << "\nTestes com instancias de pior caso 2\n";
+			parameters(tamTexto, tamPadrao, variedade);
 			texto = gerador_pior_caso_2(tamTexto);
 			padrao = gerador_pior_caso_2(tamPadrao);
 
