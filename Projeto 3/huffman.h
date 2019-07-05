@@ -241,11 +241,11 @@ bool decompressor(string input_file_name, string output_file_name) {
     int file_size; in.read((char*)&file_size, sizeof(file_size));
     std::ofstream out(output_file_name);
 
-    unsigned char byte;
+    unsigned char byte = in.get();;
     int recorded = 0, count = 0;
     Huff *root = huffman_tree + tree_size - 1;
 
-    while(recorded < file_size - 1){
+    while(recorded < file_size){
         if (!(root->right == -1 && root->left == -1)){
             if (!getBit(byte, 7 - count)) root = huffman_tree + root->left;
             else root = huffman_tree + root->right;
