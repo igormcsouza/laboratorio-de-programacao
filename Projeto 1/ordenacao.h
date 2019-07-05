@@ -199,4 +199,9 @@ void quickSort_pivo_aleatorio(int *inicio, int *fim){
 	}
 }
 
+bool is_ordered(int *v, int size){
+	for(int i = 1; i < size; i++) if(v[i-1] > v[i]) return false;
+	return true;
+}
+
 #endif
