@@ -73,6 +73,8 @@ int main(int argc, char **argv){
 			output_file_name, 
 			variety, 
 			file_size-1)) cout << "...Done!" << endl;
+
+		getchar();
 	
 	} else if((string)argv[1] == "--decompressor"){
 		get_informed_file(argc, argv, input_file_name, output_file_name);
@@ -80,7 +82,8 @@ int main(int argc, char **argv){
 
 		cout << "Reading the compressed file and reconstructing a original file..." << endl;
 		if(decompressor(input_file_name, output_file_name)) cout << "...Done!" << endl;
-
+		getchar();
+		
 	} else {
 		cout << "Command not found, please try --help or -h to find out more...\n";
 	}

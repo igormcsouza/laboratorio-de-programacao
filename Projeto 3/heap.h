@@ -7,13 +7,16 @@ struct No{
 };
 
 void print_No(No no){
-    std::cout << "No: " <<no.weight << ", " << no.idx << "|";
+    std::cout << "No: " << no.weight << ", " << no.idx << "|";
 }
 
 // Be sure a Heap está realmente mínima!
 bool is_min_heap(No *heap, int last_position){
-    for(int i = 0; i<last_position; i++)
-        if(heap[i].weight > heap[2*i+1].weight || heap[i].weight > heap[2*i+2].weight){
+    for(int i = 0; i<last_position/2; i++)
+        if((heap[i].weight > heap[2*i+1].weight || 
+        heap[i].weight > heap[2*i+2].weight) && 
+        2*i+1 < last_position &&
+        2*i+2 < last_position){
             print_No(heap[i]); 
             print_No(heap[2*i+1]); print_No(heap[2*i+2]);
             return false;
